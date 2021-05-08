@@ -10,24 +10,27 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
 // ユーザー
-Route::apiResource('users', UserController::class)->except(['index', 'store']);
-Route::post('users/registration', [UserController::class, 'register'])->name('users.register');
+Route::apiResource('users', UserController::class)->except(['index']);
+
 // お気に入り
-Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->name('favorite.show');
-Route::apiResource('shops/{shop_id}/favorite', FavoriteController::class)->only(['store', 'destroy']);
+Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->name('favorites.show');
+Route::put('shops/{shop_id}/favorite', [FavoriteController::class, 'update'])->name('favorite.update');
+Route::delete('shops/{shop_id}/favorite', [FavoriteController::class, 'destroy'])->name('favorite.destroy');
 
 // 予約
-Route::apiResource('reservations', ReservationController::class)->except(['index', 'destroy']);
-Route::get('reservations/shops/{id}', [ReservationController::class, 'shop'])->name('reservations.shop');
-Route::post('reservations/delete', [ReservationController::class, 'delete'])->name('reservations.delete');
+Route::get('users/{user_id}/reservations', [FavoriteController::class, 'show'])->name('reservations.user');
+Route::get('shops/{shop_id}/reservations', [ReservationController::class, 'shop'])->name('reservations.shop');
+Route::apiResource('shops/{shop_id}/reservation', ReservationController::class)->except(['index', 'show']);
+
 // 店舗
 Route::apiResource('shops', ShopController::class)->except('destroy');
+
 // 評価
-Route::apiResource('evaluations', EvaluationController::class)->except('index');
-Route::post('evaluations/delete', [EvaluationController::class, 'delete'])->name('evaluations.delete');
+Route::apiResource('shops/{shop_id}/evaluation', EvaluationController::class)->except(['index', 'show']);
 
 // メール
 Route::post('mail', [MailController::class, 'mail'])->name('mail');
+
 // 認証
 Route::post('users/login', [AuthController::class, 'login'])->name('login');
 Route::post('users/login/confirm', [AuthController::class, 'confirm'])->name('login.confirm');

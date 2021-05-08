@@ -7,32 +7,36 @@ use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
-    public function show($id)
+    public function show($user_id)
     {
-        $item = Favorite::where('user_id', $id)->get();
+        $items = Favorite::where('user_id', $user_id)->get();
 
         return response()->json([
-            'data' => $item
+            'data' => $items
         ], 200);
     }
 
-    public function store(Request $request)
+    public function update(Request $request, $shop_id)
     {
         $item = new Favorite();
+        $item->shop_id = $shop_id;
         $item->fill($request->all())->save();
 
         return response()->json([
-            'massage' => 'Favorite created',
             'data' => $item
         ], 200);
     }
 
-    public function destroy($shop_id, $id)
+    public function destroy(Request $request, $shop_id)
     {
-        Favorite::destroy($id);
+        $item = Favorite::find($request->favorite_id);
 
-        return response()->json([
-                'massage' => 'Favorite deleted'
-            ], 200);
+        if ($item->user_id == $request->user_id && $item->shop_id == $shop_id) {
+            $item->delete();
+
+            return response()->json([], 204);
+        } else {
+            return response()->json([], 400);
+        }
     }
 }

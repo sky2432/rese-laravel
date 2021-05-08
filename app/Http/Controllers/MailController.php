@@ -16,9 +16,7 @@ class MailController extends Controller
                 $item->notify(new MailNotification($request));
             }
         } else {
-            return response()->json([
-                'message' => 'Not Allowed',
-            ], 400);
+            return response()->json([], 400);
         }
     }
 }

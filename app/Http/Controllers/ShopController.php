@@ -26,23 +26,30 @@ class ShopController extends Controller
         ], 200);
     }
 
-    public function show($id)
+    public function show($shop_id)
     {
-        $items = Shop::find($id);
+        $items = Shop::find($shop_id);
 
         return response()->json([
             'data' => $items
         ], 200);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop_id)
     {
-        $item = Shop::find($id);
+        $item = Shop::find($shop_id);
         $item->update($request->all());
 
         return response()->json([
             'data' => $item
         ], 200);
+    }
+
+    public function destroy($shop_id)
+    {
+        Shop::destroy($shop_id);
+
+        return response()->json([], 204);
     }
 
 }

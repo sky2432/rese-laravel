@@ -9,48 +9,41 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function register(UserRequest $request)
+    public function store(UserRequest $request)
     {
         $item = new User();
-        $item->fill($request->all());
         $item->password = Hash::make($request->password);
-        $item->save();
+        $item->fill($request->all())->save();
 
         return response()->json([
-            'message' => 'User created',
             'data' => $item
         ], 200);
     }
 
-    public function show($id)
+    public function show($user_id)
     {
-        $item = User::find($id);
+        $item = User::find($user_id);
 
         return response()->json([
-            'message' => 'Get userData',
             'data' => $item
         ], 200);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $user_id)
     {
-        $item = User::find($id);
-        $item->fill($request->all());
+        $item = User::find($user_id);
         $item->password = Hash::make($request->password);
-        $item->save();
+        $item->fill($request->all())->save();
 
         return response()->json([
-            'message' => 'User updated',
             'data' => $item
         ], 200);
     }
 
-    public function destroy($id)
+    public function destroy($user_id)
     {
-            User::destroy($id);
+            User::destroy($user_id);
 
-            return response()->json([
-                'massage' => 'User deleted'
-            ], 200);
+            return response()->json([], 204);
     }
 }
