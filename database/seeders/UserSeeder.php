@@ -56,8 +56,8 @@ class UserSeeder extends Seeder
             );
             $user->shopsReserved()->syncWithoutDetaching(
                 [$shop_id => [
-                            'date' => $faker->dateTimeBetween('now', '1week')->format('Y-m-d H:i'),
-                            'number' => rand(1, 5),
+                            'visited_on' => $faker->dateTimeBetween('now', '1week')->format('Y-m-d H:i'),
+                            'number_of_visiters' => rand(1, 5),
                             'created_at' => now(),'updated_at' => now()]]
             );
         };
@@ -78,8 +78,8 @@ class UserSeeder extends Seeder
                 );
                 $user->shopsReserved()->syncWithoutDetaching(
                     [$shop_id => [
-                            'date' => $faker->dateTimeBetween('now', '1week')->format('Y-m-d H:i'),
-                            'number' => rand(1, 5),
+                            'visited_on' => $faker->dateTimeBetween('now', '1week')->format('Y-m-d H:i'),
+                            'number_of_visiters' => rand(1, 5),
                             'created_at' => now(),'updated_at' => now()]]
                 );
             }

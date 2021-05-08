@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
-use Database\Seeders\ReservationSeeder;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -65,6 +64,4 @@ class ReservationController extends Controller
             ], 400);
         }
     }
-
-
 }

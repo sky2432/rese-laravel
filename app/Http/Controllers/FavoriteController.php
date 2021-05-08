@@ -27,21 +27,12 @@ class FavoriteController extends Controller
         ], 200);
     }
 
-    public function delete(Request $request)
+    public function destroy($shop_id, $id)
     {
-        $id = $request->id;
-        $item = Favorite::find($id);
+        Favorite::destroy($id);
 
-        if ($item->user_id === $request->user_id) {
-            Favorite::destroy($id);
-
-            return response()->json([
+        return response()->json([
                 'massage' => 'Favorite deleted'
             ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Not allowed',
-            ], 400);
-        }
     }
 }

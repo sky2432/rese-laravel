@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
 // ユーザー
-Route::apiResource('users', UserController::class)->except(['index', 'destroy']);
-Route::post('users/delete', [UserController::class, 'delete'])->name('users.delete');
+Route::apiResource('users', UserController::class)->except(['index', 'store']);
+Route::post('users/registration', [UserController::class, 'register'])->name('users.register');
 // お気に入り
-Route::apiResource('favorites', FavoriteController::class)->only(['show', 'store']);
-Route::post('favorites/delete', [FavoriteController::class, 'delete'])->name('favorites.delete');
+Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->name('favorite.show');
+Route::apiResource('shops/{shop_id}/favorite', FavoriteController::class)->only(['store', 'destroy']);
+
 // 予約
 Route::apiResource('reservations', ReservationController::class)->except(['index', 'destroy']);
 Route::get('reservations/shops/{id}', [ReservationController::class, 'shop'])->name('reservations.shop');
@@ -28,6 +29,6 @@ Route::post('evaluations/delete', [EvaluationController::class, 'delete'])->name
 // メール
 Route::post('mail', [MailController::class, 'mail'])->name('mail');
 // 認証
-Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::post('login/confirm', [AuthController::class, 'confirm'])->name('login.confirm');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('users/login', [AuthController::class, 'login'])->name('login');
+Route::post('users/login/confirm', [AuthController::class, 'confirm'])->name('login.confirm');
+Route::post('users/logout', [AuthController::class, 'logout'])->name('logout');

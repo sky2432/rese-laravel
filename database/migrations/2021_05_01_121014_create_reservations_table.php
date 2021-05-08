@@ -17,8 +17,8 @@ class CreateReservationsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('shop_id')->references('id')->on('shops');
-            $table->dateTime('date');
-            $table->unsignedSmallInteger('number');
+            $table->dateTime('visited_on');
+            $table->unsignedSmallInteger('number_of_visiters');
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function store(UserRequest $request)
+    public function register(UserRequest $request)
     {
         $item = new User();
         $item->fill($request->all());
@@ -45,9 +45,9 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function delete(Request $request)
+    public function destroy($id)
     {
-            User::destroy($request->user_id);
+            User::destroy($id);
 
             return response()->json([
                 'massage' => 'User deleted'
