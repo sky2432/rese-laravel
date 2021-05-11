@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favorite;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
     public function show($user_id)
     {
-        $items = Favorite::where('user_id', $user_id)->get();
+        $items = User::find($user_id)->favoriteShops()->with(['area:id,name', 'genre:id,name'])->get();
+
 
         return response()->json([
             'data' => $items

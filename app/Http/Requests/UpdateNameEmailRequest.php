@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UserRequest extends FormRequest
+class UpdateNameEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,13 +22,13 @@ class UserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public static function rules($request, $id)
     {
         return [
-            'name' => 'required|min:2',
-            'email' => 'required|email:rfc,dns|unique:App\Models\User,email',
-            'password' => 'required|min:4',
-            'role' => 'required',
+            $request->validate([
+            'name' => ['required','min:2'],
+            'email' => ['required','email:rfc,dns',Rule::unique('users')->ignore($id)]
+            ])
         ];
     }
 }

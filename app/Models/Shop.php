@@ -23,7 +23,7 @@ class Shop extends Model
     {
         return $this->belongsToMany(User::class, 'reservations')
                     ->as('reservation')
-                    ->withPivot('date', 'number');
+                    ->withPivot('id', 'visited_on', 'number_of_visiters');
     }
 
     public function usersEvaluated()
@@ -47,4 +47,11 @@ class Shop extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+
 }

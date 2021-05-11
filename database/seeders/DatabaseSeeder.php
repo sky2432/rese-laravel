@@ -20,9 +20,6 @@ class DatabaseSeeder extends Seeder
             GenreSeeder::class,
             ShopSeeder::class,
             UserSeeder::class,
-            FavoriteSeeder::class,
-            ReservationSeeder::class,
-            EvaluationSeeder::class,
         ]);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Seeders\EvaluationSeeder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -37,14 +36,15 @@ class User extends Authenticatable
     public function favoriteShops()
     {
         return $this->belongsToMany(Shop::class, 'favorites')
-                    ->as('favorite');
+                    ->as('favorite')
+                    ->withPivot('id');
     }
 
     public function shopsReserved()
     {
         return $this->belongsToMany(Shop::class, 'reservations')
                     ->as('reservation')
-                    ->withPivot('date', 'number');
+                    ->withPivot('id', 'visited_on', 'number_of_visiters');
     }
 
     public function shopsEvaluated()

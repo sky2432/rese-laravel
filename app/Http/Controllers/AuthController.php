@@ -28,7 +28,7 @@ class AuthController extends Controller
                 'message' => 'Validate OK',
             ], 200);
     }
-    
+
     public function login(Request $request)
     {
         $item = User::where('email', $request->email)->first();
@@ -39,7 +39,7 @@ class AuthController extends Controller
                 'data' => $item,
             ], 200);
         } else {
-            return response()->json(['auth' => false], 200);
+            return response()->json([], 400);
         }
     }
 

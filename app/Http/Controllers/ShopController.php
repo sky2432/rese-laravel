@@ -9,7 +9,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $items = Shop::all();
+        $items = Shop::with(['area:id,name', 'genre:id,name'])->get();
 
         return response()->json([
             'data' => $items
@@ -28,10 +28,10 @@ class ShopController extends Controller
 
     public function show($shop_id)
     {
-        $items = Shop::find($shop_id);
+        $item = Shop::with(['area:id,name', 'genre:id,name'])->find($shop_id);
 
         return response()->json([
-            'data' => $items
+            'data' => $item
         ], 200);
     }
 
@@ -51,5 +51,4 @@ class ShopController extends Controller
 
         return response()->json([], 204);
     }
-
 }

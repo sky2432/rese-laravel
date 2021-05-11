@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 
 // ユーザー
 Route::apiResource('users', UserController::class)->except(['index']);
+Route::put('users/{user_id}/password', [UserController::class, 'updatePassword'])->name('users.updatePassword');
 
 // お気に入り
 Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->name('favorites.show');
@@ -18,7 +19,7 @@ Route::put('shops/{shop_id}/favorite', [FavoriteController::class, 'update'])->n
 Route::delete('shops/{shop_id}/favorite', [FavoriteController::class, 'destroy'])->name('favorite.destroy');
 
 // 予約
-Route::get('users/{user_id}/reservations', [FavoriteController::class, 'show'])->name('reservations.user');
+Route::get('users/{user_id}/reservations', [ReservationController::class, 'user'])->name('reservations.user');
 Route::get('shops/{shop_id}/reservations', [ReservationController::class, 'shop'])->name('reservations.shop');
 Route::apiResource('shops/{shop_id}/reservation', ReservationController::class)->except(['index', 'show']);
 
@@ -29,7 +30,7 @@ Route::apiResource('shops', ShopController::class)->except('destroy');
 Route::apiResource('shops/{shop_id}/evaluation', EvaluationController::class)->except(['index', 'show']);
 
 // メール
-Route::post('mail', [MailController::class, 'mail'])->name('mail');
+Route::post('users/mail', [MailController::class, 'mail'])->name('mail');
 
 // 認証
 Route::post('users/login', [AuthController::class, 'login'])->name('login');

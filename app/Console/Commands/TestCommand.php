@@ -41,15 +41,30 @@ class TestCommand extends Command
     {
         $this->info('start');
 
-        $users = User::find(2);
+        // $shops = User::find(2)->favoriteShops;
 
-        $shops = Shop::pluck('id')->all();
-        foreach($shops as $shop) {
+        // foreach ($shops as $shop) {
+        //     echo "\n";
+        //     echo $shop;
+        // }
 
-            echo $shop;
-        }
+        $area = Shop::find(1)->area->name;
+
+        echo $area;
 
 
+        // $shops = Shop::pluck('id')->all();
+        // foreach($shops as $shop) {
+        //     echo $shop;
+        // }
+
+        // $shops = Shop::with(['area:id,name', 'genre:id,name'])->get();
+        // foreach ($shops as $shop) {
+        //     echo $shop;
+        //     echo "\n";
+        // }
+
+        echo "\n";
         $this->info('end');
     }
 }

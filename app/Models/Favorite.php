@@ -12,4 +12,9 @@ class Favorite extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
 }
