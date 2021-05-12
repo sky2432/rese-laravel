@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shop;
+use App\Services\EvaluationService;
 use Illuminate\Http\Request;
+
 
 class ShopController extends Controller
 {
@@ -11,8 +13,10 @@ class ShopController extends Controller
     {
         $items = Shop::with(['area:id,name', 'genre:id,name'])->get();
 
+        $shops = EvaluationService::createAllRating($items);
+
         return response()->json([
-            'data' => $items
+            'data' => $shops
         ], 200);
     }
 
@@ -30,8 +34,10 @@ class ShopController extends Controller
     {
         $item = Shop::with(['area:id,name', 'genre:id,name'])->find($shop_id);
 
+        $shop = EvaluationService::createOneRating($item);
+
         return response()->json([
-            'data' => $item
+            'data' => $shop
         ], 200);
     }
 

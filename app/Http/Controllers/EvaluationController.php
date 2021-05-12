@@ -44,6 +44,5 @@ class EvaluationController extends Controller
         } else {
             return response()->json([], 400);
         }
-
     }
 }

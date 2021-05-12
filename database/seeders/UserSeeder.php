@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
         };
 
         User::factory()->count(10)->create()->each(function (User $user) use ($shops, $faker) {
-            for ($i = 0; $i < rand(1, 10); $i++) {
+            for ($i = 0; $i < rand(1, 30); $i++) {
                 $shop_id = $shops[array_rand($shops)];
                 $user->favoriteShops()->syncWithoutDetaching(
                     [$shop_id => [

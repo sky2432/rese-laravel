@@ -53,5 +53,10 @@ class Shop extends Model
         return $this->hasMany(Favorite::class);
     }
 
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
+
 
 }

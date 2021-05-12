@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Favorite;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\EvaluationService;
+
 
 class FavoriteController extends Controller
 {
@@ -12,9 +14,10 @@ class FavoriteController extends Controller
     {
         $items = User::find($user_id)->favoriteShops()->with(['area:id,name', 'genre:id,name'])->get();
 
+        $shops = EvaluationService::createAllRating($items);
 
         return response()->json([
-            'data' => $items
+            'data' => $shops
         ], 200);
     }
 

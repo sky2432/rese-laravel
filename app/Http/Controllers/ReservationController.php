@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\EvaluationService;
+
 
 class ReservationController extends Controller
 {
     public function user($user_id)
     {
-        // $item = Reservation::where('user_id', $user_id)->get();
         $items = User::find($user_id)->shopsReserved()->with(['area:id,name', 'genre:id,name'])->latest('visited_on')->get();
 
+        $shops = EvaluationService::createAllRating($items);
 
         return response()->json([
-            'data' => $items
+            'data' => $shops
         ], 200);
     }
 
