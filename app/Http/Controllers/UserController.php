@@ -61,12 +61,12 @@ class UserController extends Controller
 
     public function destroy($user_id)
     {
-            Favorite::where('user_id', $user_id)->delete();
-            Reservation::where('user_id', $user_id)->delete();
-            Evaluation::where('user_id', $user_id)->delete();
+        Favorite::where('user_id', $user_id)->delete();
+        Reservation::where('user_id', $user_id)->delete();
+        Evaluation::where('user_id', $user_id)->delete();
 
-            User::destroy($user_id);
+        User::destroy($user_id);
 
-            return response()->json([], 204);
+        return response()->json([], 204);
     }
 }

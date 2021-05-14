@@ -37,7 +37,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Shop::class, 'favorites')
                     ->as('favorite')
-                    ->withPivot('id');
+                    ->withPivot('id')
+                    ->withTimestamps();
     }
 
     public function shopsReserved()

@@ -7,10 +7,9 @@ use Illuminate\Http\Request;
 
 class EvaluationController extends Controller
 {
-    public function store(Request $request, $shop_id)
+    public function store(Request $request)
     {
         $item = new Evaluation();
-        $item->shop_id = $shop_id;
         $item->fill($request->all())->save();
 
         return response()->json([
@@ -18,31 +17,21 @@ class EvaluationController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, $shop_id, $evaluation_id)
+    public function update(Request $request, $evaluation_id)
     {
         $item = Evaluation::find($evaluation_id);
 
-        if ($item->user_id == $request->user_id && $item->shop_id == $shop_id) {
-            $item->update($request->all());
+        $item->update($request->all());
 
-            return response()->json([
+        return response()->json([
                 'data' => $item
             ], 200);
-        } else {
-            return response()->json([], 400);
-        }
     }
 
-    public function destroy(Request $request, $shop_id, $evaluation_id)
+    public function destroy($evaluation_id)
     {
-        $item = Evaluation::find($evaluation_id);
+        Evaluation::destroy($evaluation_id);
 
-        if ($item->user_id == $request->user_id && $item->shop_id == $shop_id) {
-            $item->delete();
-
-            return response()->json([], 204);
-        } else {
-            return response()->json([], 400);
-        }
+        return response()->json([], 204);
     }
 }

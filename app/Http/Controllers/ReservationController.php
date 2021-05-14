@@ -7,12 +7,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\EvaluationService;
 
-
 class ReservationController extends Controller
 {
     public function user($user_id)
     {
-        $items = User::find($user_id)->shopsReserved()->with(['area:id,name', 'genre:id,name'])->latest('visited_on')->get();
+        $items = User::find($user_id)->shopsReserved()->with(['area:id,name', 'genre:id,name'])->oldest('visited_on')->get();
 
         $shops = EvaluationService::createAllRating($items);
 
@@ -30,10 +29,9 @@ class ReservationController extends Controller
         ], 200);
     }
 
-    public function store(Request $request, $shop_id)
+    public function store(Request $request)
     {
         $item = new Reservation();
-        $item->shop_id = $shop_id;
         $item->fill($request->all())->save();
 
         return response()->json([
@@ -41,33 +39,20 @@ class ReservationController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, $shop_id, $reservation_id)
+    public function update(Request $request, $reservation_id)
     {
         $item = Reservation::find($reservation_id);
+        $item->update($request->all());
 
-        if ($item->user_id == $request->user_id && $item->shop_id == $shop_id) {
-            $item->visited_on = $request->visited_on;
-            $item->number_of_visiters = $request->number_of_visiters;
-            $item->save();
-
-            return response()->json([
+        return response()->json([
                 'data' => $item
             ], 200);
-        } else {
-            return response()->json([], 400);
-        }
     }
 
-    public function destroy(Request $request, $shop_id, $reservation_id)
+    public function destroy($reservation_id)
     {
-        $item = Reservation::find($reservation_id);
+        Reservation::destroy($reservation_id);
 
-        if ($item->user_id == $request->user_id && $item->shop_id == $shop_id) {
-            $item->delete();
-
-            return response()->json([], 204);
-        } else {
-            return response()->json([], 400);
-        }
+        return response()->json([], 204);
     }
 }

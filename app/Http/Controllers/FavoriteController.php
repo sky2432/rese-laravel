@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\EvaluationService;
 
-
 class FavoriteController extends Controller
 {
     public function show($user_id)
@@ -21,10 +20,9 @@ class FavoriteController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, $shop_id)
+    public function store(Request $request)
     {
         $item = new Favorite();
-        $item->shop_id = $shop_id;
         $item->fill($request->all())->save();
 
         return response()->json([
@@ -32,16 +30,10 @@ class FavoriteController extends Controller
         ], 200);
     }
 
-    public function destroy(Request $request, $shop_id)
+    public function destroy($favorite_id)
     {
-        $item = Favorite::find($request->favorite_id);
+        Favorite::destroy($favorite_id);
 
-        if ($item->user_id == $request->user_id && $item->shop_id == $shop_id) {
-            $item->delete();
-
-            return response()->json([], 204);
-        } else {
-            return response()->json([], 400);
-        }
+        return response()->json([], 204);
     }
 }

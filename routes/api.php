@@ -15,19 +15,18 @@ Route::put('users/{user_id}/password', [UserController::class, 'updatePassword']
 
 // お気に入り
 Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->name('favorites.show');
-Route::put('shops/{shop_id}/favorite', [FavoriteController::class, 'update'])->name('favorite.update');
-Route::delete('shops/{shop_id}/favorite', [FavoriteController::class, 'destroy'])->name('favorite.destroy');
+Route::apiResource('shops/favorite', FavoriteController::class)->only('store', 'destroy');
 
 // 予約
 Route::get('users/{user_id}/reservations', [ReservationController::class, 'user'])->name('reservations.user');
 Route::get('shops/{shop_id}/reservations', [ReservationController::class, 'shop'])->name('reservations.shop');
-Route::apiResource('shops/{shop_id}/reservation', ReservationController::class)->except(['index', 'show']);
+Route::apiResource('shops/reservation', ReservationController::class)->except(['index', 'show']);
 
 // 店舗
 Route::apiResource('shops', ShopController::class)->except('destroy');
 
 // 評価
-Route::apiResource('shops/{shop_id}/evaluation', EvaluationController::class)->except(['index', 'show']);
+Route::apiResource('shops/evaluation', EvaluationController::class)->except(['index', 'show']);
 
 // メール
 Route::post('users/mail', [MailController::class, 'mail'])->name('mail');

@@ -16,6 +16,7 @@ class EvaluationService
 
     public static function createOneRating($shop)
     {
+
         $count = $shop->evaluations->count();
         $shop->evaluation_count = $count;
         $shop->evaluation = self::calculateRating($shop->evaluations, $count);
