@@ -14,7 +14,13 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function store(UserRequest $request)
+    public function confirm(UserRequest $request)
+    {
+        return response()->json([
+        ], config('const.STATUS_CODE.NO_CONTENT'));
+    }
+
+    public function store(Request $request)
     {
         $item = new User();
         $item->password = Hash::make($request->password);
@@ -22,17 +28,17 @@ class UserController extends Controller
 
         return response()->json([
             'data' => $item
-        ], 200);
+        ], config('const.STATUS_CODE.OK'));
     }
 
-    public function show($user_id)
-    {
-        $item = User::find($user_id);
+    // public function show($user_id)
+    // {
+    //     $item = User::find($user_id);
 
-        return response()->json([
-            'data' => $item
-        ], 200);
-    }
+    //     return response()->json([
+    //         'data' => $item
+    //     ], config('const.STATUS_CODE.OK'));
+    // }
 
     public function update(Request $request, $user_id)
     {
@@ -43,7 +49,7 @@ class UserController extends Controller
 
         return response()->json([
             'data' => $item
-        ], 200);
+        ], config('const.STATUS_CODE.OK'));
     }
 
     public function updatePassword(Request $request, $user_id)
@@ -56,7 +62,7 @@ class UserController extends Controller
 
         return response()->json([
             'data' => $item
-        ], 200);
+        ], config('const.STATUS_CODE.OK'));
     }
 
     public function destroy($user_id)
@@ -67,6 +73,6 @@ class UserController extends Controller
 
         User::destroy($user_id);
 
-        return response()->json([], 204);
+        return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }
 }

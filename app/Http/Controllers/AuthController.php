@@ -4,49 +4,55 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Owner;
+use App\Http\Requests\LoginRequest;
+use App\Models\Admin;
 
 class AuthController extends Controller
 {
-    public function confirm(Request $request)
+    public function userLogin(Request $request)
     {
         $item = User::where('email', $request->email)->first();
 
-        $request->validate([
-            'email' => ['required','email:rfc,dns','exists:users',
-        ],
-            'password' => ['required',
-                function ($attribute, $value, $fail) use ($item) {
-                    if ($item && !(Hash::check($value, $item->password))) {
-                        return $fail('パスワードが間違っています。');
-                    }
-                },
-            ]
-        ]);
+        LoginRequest::rules($request, $item, 'users');
 
         return response()->json([
-                'message' => 'Validate OK',
-            ], 200);
+                'auth' => true,
+                'role' => 'user',
+                'data' => $item,
+            ], config('const.STATUS_CODE.OK'));
     }
 
-    public function login(Request $request)
+    public function ownerLogin(Request $request)
     {
-        $item = User::where('email', $request->email)->first();
+        $item = Owner::where('email', $request->email)->first();
 
-        if (Hash::check($request->password, $item->password)) {
-            return response()->json([
+        LoginRequest::rules($request, $item, 'owners');
+
+        return response()->json([
                 'auth' => true,
+                'role' => 'owner',
                 'data' => $item,
-            ], 200);
-        } else {
-            return response()->json([], 400);
-        }
+            ], config('const.STATUS_CODE.OK'));
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $item = Admin::where('email', $request->email)->first();
+
+        LoginRequest::rules($request, $item, 'admins');
+
+        return response()->json([
+                'auth' => true,
+                'role' => 'admin',
+                'data' => $item,
+            ], config('const.STATUS_CODE.OK'));
     }
 
     public function logout()
     {
         return response()->json([
                 'auth' => false,
-            ], 200);
+            ], config('const.STATUS_CODE.OK'));
     }
 }

@@ -23,7 +23,7 @@ class Shop extends Model
     {
         return $this->belongsToMany(User::class, 'reservations')
                     ->as('reservation')
-                    ->withPivot('id', 'visited_on', 'number_of_visiters');
+                    ->withPivot('id', 'visited_on', 'number_of_visiters', 'status');
     }
 
     public function usersEvaluated()
@@ -58,5 +58,8 @@ class Shop extends Model
         return $this->hasMany(Evaluation::class);
     }
 
-
+    public function owner()
+    {
+        return $this->belongsTo(Owner::class, 'id', 'owner_id');
+    }
 }

@@ -21,7 +21,7 @@ class UserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public static function rules()
     {
         return [
             'name' => 'required|min:2',

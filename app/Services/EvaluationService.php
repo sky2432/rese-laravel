@@ -4,7 +4,7 @@ namespace App\Services;
 
 class EvaluationService
 {
-    public static function createAllRating($shops)
+    public static function createRating($shops)
     {
         foreach ($shops as $shop) {
             $count = $shop->evaluations->count();
@@ -12,15 +12,6 @@ class EvaluationService
             $shop->evaluation = self::calculateRating($shop->evaluations, $count);
         }
         return $shops;
-    }
-
-    public static function createOneRating($shop)
-    {
-
-        $count = $shop->evaluations->count();
-        $shop->evaluation_count = $count;
-        $shop->evaluation = self::calculateRating($shop->evaluations, $count);
-        return $shop;
     }
 
     public static function calculateRating($evaluations, $count)

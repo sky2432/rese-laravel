@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\RemindMailCommand::class,
+        Commands\ChangeReservationStatusCommand::class,
     ];
 
     /**
@@ -24,7 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:remind_mail')->everyMinute();
+        $schedule->command('command:remind_mail')->everyThirtyMinutes();
+        $schedule->command('command:change_status')->everyThirtyMinutes();
     }
 
     /**

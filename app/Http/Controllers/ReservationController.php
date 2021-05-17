@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReservationRequest;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -9,34 +10,34 @@ use App\Services\EvaluationService;
 
 class ReservationController extends Controller
 {
-    public function user($user_id)
+    public function showUserReservation($user_id)
     {
         $items = User::find($user_id)->shopsReserved()->with(['area:id,name', 'genre:id,name'])->oldest('visited_on')->get();
 
-        $shops = EvaluationService::createAllRating($items);
+        $shops = EvaluationService::createRating($items);
 
         return response()->json([
             'data' => $shops
-        ], 200);
+        ], config('const.STATUS_CODE.OK'));
     }
 
-    public function shop($shop_id)
+    public function showShopReservation($shop_id)
     {
         $item = Reservation::where('shop_id', $shop_id)->get();
 
         return response()->json([
             'data' => $item
-        ], 200);
+        ], config('const.STATUS_CODE.OK'));
     }
 
-    public function store(Request $request)
+    public function store(ReservationRequest $request)
     {
         $item = new Reservation();
         $item->fill($request->all())->save();
 
         return response()->json([
             'data' => $item
-        ], 200);
+        ], config('const.STATUS_CODE.OK'));
     }
 
     public function update(Request $request, $reservation_id)
@@ -46,13 +47,15 @@ class ReservationController extends Controller
 
         return response()->json([
                 'data' => $item
-            ], 200);
+            ], config('const.STATUS_CODE.OK'));
     }
 
     public function destroy($reservation_id)
     {
-        Reservation::destroy($reservation_id);
+        $item = Reservation::find($reservation_id);
+        $item->status = 'cancelled';
+        $item->save();
 
-        return response()->json([], 204);
+        return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }
 }

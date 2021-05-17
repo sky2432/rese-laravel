@@ -6,18 +6,17 @@ use App\Models\Shop;
 use App\Services\EvaluationService;
 use Illuminate\Http\Request;
 
-
 class ShopController extends Controller
 {
     public function index()
     {
         $items = Shop::with(['area:id,name', 'genre:id,name'])->get();
 
-        $shops = EvaluationService::createAllRating($items);
+        $shops = EvaluationService::createRating($items);
 
         return response()->json([
-            'data' => $shops
-        ], 200);
+            'data' => $shops,
+        ], config('const.STATUS_CODE.OK'));
     }
 
     public function store(Request $request)
@@ -27,18 +26,19 @@ class ShopController extends Controller
 
         return response()->json([
             'data' => $item
-        ], 200);
+        ], config('const.STATUS_CODE.OK'));
     }
 
     public function show($shop_id)
     {
-        $item = Shop::with(['area:id,name', 'genre:id,name'])->find($shop_id);
+        $item = Shop::with(['area:id,name', 'genre:id,name'])->where('id', $shop_id)->get();
 
-        $shop = EvaluationService::createOneRating($item);
+        $shop = EvaluationService::createRating($item);
+        $oneShop = $shop[0];
 
         return response()->json([
-            'data' => $shop
-        ], 200);
+            'data' => $oneShop
+        ], config('const.STATUS_CODE.OK'));
     }
 
     public function update(Request $request, $shop_id)
@@ -48,13 +48,13 @@ class ShopController extends Controller
 
         return response()->json([
             'data' => $item
-        ], 200);
+        ], config('const.STATUS_CODE.OK'));
     }
 
     public function destroy($shop_id)
     {
         Shop::destroy($shop_id);
 
-        return response()->json([], 204);
+        return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }
 }
