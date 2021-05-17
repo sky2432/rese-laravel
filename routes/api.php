@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,9 @@ Route::apiResource('users', UserController::class)->except(['index']);
 Route::put('users/{user_id}/password', [UserController::class, 'updatePassword'])->name('users.updatePassword');
 Route::post('users/confirm', [UserController::class, 'confirm'])->name('users.confirm');
 
+// オーナー
+Route::apiResource('owners', OwnerController::class);
+Route::get('owners/{owner_id}/shop', [OwnerController::class, 'showOwnerShop'])->name('owners.shop');
 
 // お気に入り
 Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->name('favorites.show');

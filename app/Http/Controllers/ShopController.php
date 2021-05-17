@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Owner;
 use App\Models\Shop;
 use App\Services\EvaluationService;
 use Illuminate\Http\Request;

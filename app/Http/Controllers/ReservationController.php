@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReservationRequest;
+use App\Models\Owner;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,12 +22,13 @@ class ReservationController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
-    public function showShopReservation($shop_id)
+    public function showShopReservation($owner_id)
     {
-        $item = Reservation::where('shop_id', $shop_id)->get();
+        $items = Owner::find($owner_id)->shops()->with(['area:id,name', 'genre:id,name', 'usersReserved'])->get();
+
 
         return response()->json([
-            'data' => $item
+            'data' => $items
         ], config('const.STATUS_CODE.OK'));
     }
 
