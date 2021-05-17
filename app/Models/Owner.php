@@ -13,8 +13,8 @@ class Owner extends Model
         'password'
     ];
 
-    public function shops()
+    public function shop()
     {
-        return $this->hasMany(Shop::class, 'owner_id', 'id');
+        return $this->hasOne(Shop::class, 'owner_id', 'id');
     }
 }

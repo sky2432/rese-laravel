@@ -85,7 +85,7 @@ class OwnerController extends Controller
 
     public function showOwnerShop($owner_id)
     {
-        $item = Owner::find($owner_id)->shops()->with(['area:id,name', 'genre:id,name']);
+        $item = Owner::find($owner_id)->shop()->with(['area:id,name', 'genre:id,name'])->first();
 
         return response()->json([
             'data' => $item
