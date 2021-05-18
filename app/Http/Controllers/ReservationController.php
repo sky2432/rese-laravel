@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReservationRequest;
 use App\Models\Owner;
 use App\Models\Reservation;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\EvaluationService;
 
 class ReservationController extends Controller
 {
-    public function showUserReservation($user_id)
+    public function showUserReservations($user_id)
     {
         $items = User::find($user_id)->shopsReserved()->with(['area:id,name', 'genre:id,name'])->oldest('visited_on')->get();
 
@@ -22,10 +23,9 @@ class ReservationController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
-    public function showShopReservation($owner_id)
+    public function showShopReservations($shop_id)
     {
-        $items = Owner::find($owner_id)->shops()->with(['area:id,name', 'genre:id,name', 'usersReserved'])->get();
-
+        $items = Shop::find($shop_id)->usersReserved()->get();
 
         return response()->json([
             'data' => $items
