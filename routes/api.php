@@ -24,8 +24,8 @@ Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->na
 Route::apiResource('shops/favorite', FavoriteController::class)->only('store', 'destroy');
 
 // 予約
-Route::get('users/{user_id}/reservations', [ReservationController::class, 'showUserReservation'])->name('reservations.user');
-Route::get('shops/{shop_id}/reservations', [ReservationController::class, 'showShopReservation'])->name('reservations.shop');
+Route::get('users/{user_id}/reservations', [ReservationController::class, 'showUserReservations'])->name('reservations.user');
+Route::get('shops/{shop_id}/reservations', [ReservationController::class, 'showShopReservations'])->name('reservations.shop');
 Route::apiResource('shops/reservation', ReservationController::class)->except(['index', 'show']);
 
 // 店舗
