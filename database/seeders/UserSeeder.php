@@ -31,8 +31,6 @@ class UserSeeder extends Seeder
 
         $user = User::find(1);
 
-        // $faker = FakerFactory::create('ja_JP');
-
         $this->createPivotTable($user);
 
         User::factory()->count(9)->create()->each(function (User $user) {
@@ -42,8 +40,8 @@ class UserSeeder extends Seeder
 
     public function createPivotTable($user)
     {
-        for ($i = 0; $i < rand(1, 50); $i++) {
-            [$date, $status] = $this->createVisitsDateAndStatus();
+        for ($i = 0; $i < rand(5, 50); $i++) {
+            [$visits_date, $status] = $this->createVisitsDateAndStatus();
 
             $shop_id = Shop::pluck('id')->random();
 
@@ -60,8 +58,8 @@ class UserSeeder extends Seeder
             );
             $user->shopsReserved()->syncWithoutDetaching(
                 [$shop_id => [
-                            'visited_on' => $date,
-                            'number_of_visiters' => rand(1, 10),
+                            'visited_on' => $visits_date,
+                            'number_of_visiters' => rand(1, 5),
                             'status' => $status,
                             'created_at' => now(),
                             'updated_at' => now()]]
@@ -72,17 +70,26 @@ class UserSeeder extends Seeder
     public function createVisitsDateAndStatus()
     {
         $faker = FakerFactory::create('ja_JP');
-        $date = $faker->dateTimeBetween('-1week', '1week')->format('Y-m-d H:i');
-        $status = $this->createStatus($faker, $date);
-        return [$date, $status];
+        $random_date = $faker->dateTimeBetween('-1week', '1week')->format('Y-m-d H:i');
+        $date = new Carbon($random_date);
+        $minute = $faker->randomElement([0, 30]);
+        $hour = "";
+        if ($date->hour < 10) {
+            $hour = rand(10, 23);
+        } else {
+            $hour = $date->hour;
+        }
+        $formatDate = Carbon::create($date->year, $date->month, $date->day, $hour, $minute);
+        $status = $this->createStatus($formatDate);
+        return [$formatDate, $status];
     }
 
-    public function createStatus($faker, $date)
+    public function createStatus($formatDate)
     {
-        $visits_date = new Carbon($date);
+        $faker = FakerFactory::create('ja_JP');
         $now = Carbon::now();
         $status = "";
-        if ($visits_date->lt($now)) {
+        if ($formatDate->lt($now)) {
             $status = $faker->randomElement(['visited', 'visited' ,'cancelled']);
         } else {
             $status = $faker->randomElement(['reserving', 'reserving', 'cancelled']);
