@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Owner;
+use App\Http\Requests\ShopRequest;
 use App\Models\Shop;
 use App\Services\EvaluationService;
 use Illuminate\Http\Request;
+use App\Models\Evaluation;
+use App\Models\Favorite;
+use App\Models\Reservation;
 
 class ShopController extends Controller
 {
@@ -42,7 +45,7 @@ class ShopController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
-    public function update(Request $request, $shop_id)
+    public function update(ShopRequest $request, $shop_id)
     {
         $item = Shop::find($shop_id);
         $item->update($request->all());
@@ -54,6 +57,10 @@ class ShopController extends Controller
 
     public function destroy($shop_id)
     {
+        Favorite::where('shop_id', $shop_id)->delete();
+        Reservation::where('shop_id', $shop_id)->delete();
+        Evaluation::where('shop_id', $shop_id)->delete();
+
         Shop::destroy($shop_id);
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));

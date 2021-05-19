@@ -29,7 +29,7 @@ Route::get('shops/{shop_id}/reservations', [ReservationController::class, 'showS
 Route::apiResource('shops/reservation', ReservationController::class)->except(['index', 'show']);
 
 // 店舗
-Route::apiResource('shops', ShopController::class)->except('destroy');
+Route::apiResource('shops', ShopController::class);
 
 // 評価
 Route::apiResource('shops/evaluation', EvaluationController::class)->except(['index', 'show']);

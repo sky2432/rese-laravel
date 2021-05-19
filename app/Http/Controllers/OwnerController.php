@@ -87,8 +87,12 @@ class OwnerController extends Controller
     {
         $item = Owner::find($owner_id)->shop()->with(['area:id,name', 'genre:id,name'])->first();
 
-        return response()->json([
-            'data' => $item
-        ], config('const.STATUS_CODE.OK'));
+        if ($item) {
+            return response()->json([
+                'data' => $item
+            ], config('const.STATUS_CODE.OK'));
+        } else {
+            return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
+        }
     }
 }
