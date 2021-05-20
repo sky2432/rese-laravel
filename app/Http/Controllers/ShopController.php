@@ -10,6 +10,8 @@ use App\Models\Evaluation;
 use App\Models\Favorite;
 use App\Models\Reservation;
 use Carbon\Carbon;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\Facades\Storage;
 
 class ShopController extends Controller
 {
@@ -26,17 +28,26 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
-        // $item = new Shop();
-        // $item->fill($request->all())->save();
+        $data = $request->all();
+        $resData = json_decode($data['data']);
+
+        $item = new Shop();
+        $item->name = $resData->name;
+        $item->owner_id = $resData->owner_id;
+        $item->area_id = $resData->area_id;
+        $item->genre_id = $resData->genre_id;
+        $item->overview = $resData->overview;
 
         $time = Carbon::now()->format('Y-m-d_H-i-s_');
-        $file_name = $time . request()->file->getClientOriginalName();
+        $file_name = $time . $request->file('file')->getClientOriginalName();
+        $path = Storage::disk('s3')->putFileAs('/', request()->file, $file_name, 'public');
+        $url = Storage::disk('s3')->url($path);
 
-        request()->file->storeAs('public', $file_name);
-
+        $item->image_url = $url;
+        $item->save();
 
         return response()->json([
-            'data' => $file_name
+            'data' => $item
         ], config('const.STATUS_CODE.OK'));
     }
 
