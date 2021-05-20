@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Evaluation;
 use App\Models\Favorite;
 use App\Models\Reservation;
+use Carbon\Carbon;
 
 class ShopController extends Controller
 {
@@ -25,11 +26,17 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
-        $item = new Shop();
-        $item->fill($request->all())->save();
+        // $item = new Shop();
+        // $item->fill($request->all())->save();
+
+        $time = Carbon::now()->format('Y-m-d_H-i-s_');
+        $file_name = $time . request()->file->getClientOriginalName();
+
+        request()->file->storeAs('public', $file_name);
+
 
         return response()->json([
-            'data' => $item
+            'data' => $file_name
         ], config('const.STATUS_CODE.OK'));
     }
 

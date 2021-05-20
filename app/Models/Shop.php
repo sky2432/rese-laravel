@@ -10,7 +10,8 @@ class Shop extends Model
     use HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
+        'image_url'
     ];
 
     public function usersAddedToFavorites()
