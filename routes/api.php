@@ -12,7 +12,7 @@ use App\Http\Controllers\UserController;
 
 // ユーザー
 Route::apiResource('users', UserController::class)->except(['index']);
-Route::put('users/{user_id}/password', [UserController::class, 'updatePassword'])->name('users.updatePassword');
+Route::put('users/{user_id}/password', [UserController::class, 'updatePassword'])->name('users.password.update');
 Route::post('users/confirm', [UserController::class, 'confirm'])->name('users.confirm');
 
 // オーナー
@@ -30,6 +30,7 @@ Route::apiResource('shops/reservation', ReservationController::class)->except(['
 
 // 店舗
 Route::apiResource('shops', ShopController::class);
+Route::put('shops/{shop_id}/image', [ShopController::class, 'changeImage'])->name('shops.image.update');
 
 // 評価
 Route::apiResource('shops/evaluation', EvaluationController::class)->except(['index', 'show']);
@@ -39,7 +40,6 @@ Route::post('users/mail', [MailController::class, 'mail'])->name('mail');
 
 // 認証
 Route::post('login/{type}', [AuthController::class, 'login'])->name('login');
-
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 
