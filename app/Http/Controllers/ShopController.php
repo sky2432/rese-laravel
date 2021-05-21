@@ -28,8 +28,8 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
-        $resData = json_decode($data['data']);
+        $form_data = $request->all();
+        $resData = json_decode($form_data['sendData']);
 
         $item = new Shop();
         $item->name = $resData->name;
@@ -38,9 +38,7 @@ class ShopController extends Controller
         $item->genre_id = $resData->genre_id;
         $item->overview = $resData->overview;
 
-        $time = Carbon::now()->format('Y-m-d_H-i-s_');
-        $file_name = $time . $request->file('file')->getClientOriginalName();
-        $path = Storage::disk('s3')->putFileAs('/', request()->file, $file_name, 'public');
+        $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
         $url = Storage::disk('s3')->url($path);
 
         $item->image_url = $url;
@@ -78,6 +76,10 @@ class ShopController extends Controller
         Favorite::where('shop_id', $shop_id)->delete();
         Reservation::where('shop_id', $shop_id)->delete();
         Evaluation::where('shop_id', $shop_id)->delete();
+
+        $item = Shop::find($shop_id);
+        $file_name = basename($item->image_url);
+        Storage::disk('s3')->delete($file_name);
 
         Shop::destroy($shop_id);
 
