@@ -38,9 +38,7 @@ Route::apiResource('shops/evaluation', EvaluationController::class)->except(['in
 Route::post('users/mail', [MailController::class, 'mail'])->name('mail');
 
 // 認証
-Route::post('users/login', [AuthController::class, 'userLogin'])->name('users.login');
-Route::post('owners/login', [AuthController::class, 'ownerLogin'])->name('owner.login');
-Route::post('admins/login', [AuthController::class, 'adminLogin'])->name('admin.login');
+Route::post('login/{type}', [AuthController::class, 'login'])->name('login');
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
