@@ -27,7 +27,6 @@ class UserRequest extends FormRequest
             'name' => 'required|min:2',
             'email' => 'required|email:rfc,dns|unique:App\Models\User,email',
             'password' => 'required|min:4',
-            'role' => 'required',
         ];
     }
 }
