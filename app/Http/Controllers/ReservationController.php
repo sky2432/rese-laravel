@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReservationRequest;
-use App\Models\Owner;
 use App\Models\Reservation;
 use App\Models\Shop;
 use App\Models\User;

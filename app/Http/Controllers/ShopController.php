@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 use App\Models\Evaluation;
 use App\Models\Favorite;
 use App\Models\Reservation;
-use Carbon\Carbon;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Storage;
 
 class ShopController extends Controller

@@ -12,20 +12,20 @@ class AuthController extends Controller
 {
     public function login(Request $request, $type)
     {
-        if ($type === 'user') {
+        if ($type === config('const.ROLE.USER')) {
             $item = User::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'users');
-            $role = 'user';
+            $role = config('const.ROLE.USER');
         }
-        if ($type === 'owner') {
+        if ($type === config('const.ROLE.OWNER')) {
             $item = Owner::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'owners');
-            $role = 'owner';
+            $role = config('const.ROLE.OWNER');
         }
-        if ($type === 'admin') {
+        if ($type === config('const.ROLE.ADMIN')) {
             $item = Admin::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'admins');
-            $role = 'admin';
+            $role = config('const.ROLE.ADMIN');
         }
 
         return response()->json([
