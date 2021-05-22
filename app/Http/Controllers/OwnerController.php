@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateNameEmailRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Owner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class OwnerController extends Controller
 {
@@ -13,16 +16,6 @@ class OwnerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -50,26 +43,35 @@ class OwnerController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Owner  $owner
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Owner $owner)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Owner  $owner
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Owner $owner)
+    public function update(Request $request, $owner_id)
     {
-        //
+        UpdateNameEmailRequest::rules($request, $owner_id, 'owners');
+
+        $item = Owner::find($owner_id);
+        $item->fill($request->all())->save();
+
+        return response()->json([
+            'data' => $item
+        ], config('const.STATUS_CODE.OK'));
+    }
+
+    public function updatePassword(Request $request, $owner_id)
+    {
+        $item = Owner::find($owner_id);
+        UpdatePasswordRequest::rules($request, $item);
+
+        $item->password = Hash::make($request->new_password);
+        $item->save();
+
+        return response()->json([
+            'data' => $item
+        ], config('const.STATUS_CODE.OK'));
     }
 
     /**

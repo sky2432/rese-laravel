@@ -9,6 +9,11 @@ class Owner extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'email'
+    ];
+
     protected $hidden = [
         'password'
     ];

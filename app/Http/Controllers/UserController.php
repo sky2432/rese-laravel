@@ -42,7 +42,7 @@ class UserController extends Controller
 
     public function update(Request $request, $user_id)
     {
-        UpdateNameEmailRequest::rules($request, $user_id);
+        UpdateNameEmailRequest::rules($request, $user_id, 'users');
 
         $item = User::find($user_id);
         $item->fill($request->all())->save();

@@ -24,11 +24,10 @@ class ShopRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:10',
+            'name' => 'required|max:10',
             'area_id' => 'required',
             'genre_id' => 'required',
             'overview' => 'required|max:255',
-            // 'image_url' => 'required'
         ];
     }
 }
