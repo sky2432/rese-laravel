@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $item = new User();
+        $item = new User;
         $item->password = Hash::make($request->password);
         $item->fill($request->all())->save();
 

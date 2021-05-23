@@ -5,50 +5,43 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateNameEmailRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Owner;
+use App\Models\Evaluation;
+use App\Models\Favorite;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class OwnerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $items = Owner::all();
+
+        return response()->json([
+            'data' => $items
+        ], config('const.STATUS_CODE.OK'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $item = new Owner();
+        $item->password = Hash::make($request->password);
+        $item->fill($request->all())->save();
+
+        return response()->json([
+            'data' => $item
+        ], config('const.STATUS_CODE.OK'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Owner  $owner
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Owner $owner)
+    public function show($owner_id)
     {
-        //
+        $item = Owner::find($owner_id);
+
+        return response()->json([
+            'data' => $item
+        ], config('const.STATUS_CODE.OK'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Owner  $owner
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $owner_id)
     {
         UpdateNameEmailRequest::rules($request, $owner_id, 'owners');
@@ -74,15 +67,19 @@ class OwnerController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Owner  $owner
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Owner $owner)
+    public function destroy($owner_id)
     {
-        //
+        $item = Owner::find($owner_id)->shop()->first();
+        if ($item) {
+            $shop_id = $item->id;
+            Favorite::where('shop_id', $shop_id)->delete();
+            Reservation::where('shop_id', $shop_id)->delete();
+            Evaluation::where('shop_id', $shop_id)->delete();
+        }
+        
+        Owner::destroy($owner_id);
+
+        return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }
 
     public function showOwnerShop($owner_id)
