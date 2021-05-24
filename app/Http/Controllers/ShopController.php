@@ -48,7 +48,7 @@ class ShopController extends Controller
 
     public function show($shop_id)
     {
-        $item = Shop::with(['area:id,name', 'genre:id,name'])->where('id', $shop_id)->get();
+        $item = Shop::with(['area:id,name', 'genre:id,name', 'owner:id,name'])->where('id', $shop_id)->get();
 
         $shop = EvaluationService::createRating($item);
         $oneShop = $shop[0];

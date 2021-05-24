@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,12 +21,14 @@ class UserRequest extends FormRequest
      *
      * @return array
      */
-    public static function rules()
+    public static function rules($request, $table_name)
     {
         return [
-            'name' => 'required|min:2',
-            'email' => 'required|email:rfc,dns|unique:App\Models\User,email',
-            'password' => 'required|min:4',
+            $request->validate([
+                    'name' => 'required|min:2',
+                    'email' => ['required', 'email',"unique:{$table_name},email"],
+                    'password' => 'required|min:4',
+            ])
         ];
     }
 }

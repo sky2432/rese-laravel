@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateNameEmailRequest;
 use App\Http\Requests\UpdatePasswordRequest;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\Evaluation;
 use App\Models\Favorite;
 use App\Models\Reservation;
@@ -14,8 +14,20 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function confirm(UserRequest $request)
+    public function index()
     {
+        $items = User::all();
+        ;
+
+        return response()->json([
+            'data' => $items
+        ], config('const.STATUS_CODE.OK'));
+    }
+
+    public function confirm(Request $request)
+    {
+        RegisterRequest::rules($request, 'users');
+
         return response()->json([
         ], config('const.STATUS_CODE.NO_CONTENT'));
     }
@@ -30,15 +42,6 @@ class UserController extends Controller
             'data' => $item
         ], config('const.STATUS_CODE.OK'));
     }
-
-    // public function show($user_id)
-    // {
-    //     $item = User::find($user_id);
-
-    //     return response()->json([
-    //         'data' => $item
-    //     ], config('const.STATUS_CODE.OK'));
-    // }
 
     public function update(Request $request, $user_id)
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateNameEmailRequest;
 use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\Owner;
 use App\Models\Evaluation;
 use App\Models\Favorite;
@@ -15,11 +16,20 @@ class OwnerController extends Controller
 {
     public function index()
     {
-        $items = Owner::all();
+        $items = Owner::with(['shop:id,owner_id,name'])->get();
+        ;
 
         return response()->json([
             'data' => $items
         ], config('const.STATUS_CODE.OK'));
+    }
+
+    public function confirm(Request $request)
+    {
+        RegisterRequest::rules($request, 'owners');
+
+        return response()->json([
+        ], config('const.STATUS_CODE.NO_CONTENT'));
     }
 
     public function store(Request $request)
@@ -76,7 +86,7 @@ class OwnerController extends Controller
             Reservation::where('shop_id', $shop_id)->delete();
             Evaluation::where('shop_id', $shop_id)->delete();
         }
-        
+
         Owner::destroy($owner_id);
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));

@@ -20,6 +20,6 @@ class Owner extends Model
 
     public function shop()
     {
-        return $this->hasOne(Shop::class, 'owner_id', 'id');
+        return $this->hasOne(Shop::class);
     }
 }

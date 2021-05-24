@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
 // ユーザー
-Route::apiResource('users', UserController::class)->except(['index']);
+Route::apiResource('users', UserController::class);
 Route::put('users/{user_id}/password', [UserController::class, 'updatePassword'])->name('users.password.update');
 Route::post('users/confirm', [UserController::class, 'confirm'])->name('users.confirm');
 
@@ -19,6 +19,7 @@ Route::post('users/confirm', [UserController::class, 'confirm'])->name('users.co
 Route::apiResource('owners', OwnerController::class);
 Route::get('owners/{owner_id}/shop', [OwnerController::class, 'showOwnerShop'])->name('owners.shop');
 Route::put('owners/{owner_id}/password', [OwnerController::class, 'updatePassword'])->name('owners.password.update');
+Route::post('owners/confirm', [OwnerController::class, 'confirm'])->name('owners.confirm');
 
 
 // お気に入り
