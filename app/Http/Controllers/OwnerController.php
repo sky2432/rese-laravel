@@ -9,6 +9,7 @@ use App\Models\Owner;
 use App\Models\Evaluation;
 use App\Models\Favorite;
 use App\Models\Reservation;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -45,7 +46,7 @@ class OwnerController extends Controller
 
     public function show($owner_id)
     {
-        $item = Owner::find($owner_id);
+        $item = Owner::with(['shop', 'shop.area:id,name', 'shop.genre:id,name'])->where('id', $owner_id)->first();
 
         return response()->json([
             'data' => $item
@@ -79,12 +80,12 @@ class OwnerController extends Controller
 
     public function destroy($owner_id)
     {
-        $item = Owner::find($owner_id)->shop()->first();
-        if ($item) {
-            $shop_id = $item->id;
+        $shop_id = Owner::find($owner_id)->shop->id;
+        if ($shop_id) {
             Favorite::where('shop_id', $shop_id)->delete();
             Reservation::where('shop_id', $shop_id)->delete();
             Evaluation::where('shop_id', $shop_id)->delete();
+            Shop::destroy($shop_id);
         }
 
         Owner::destroy($owner_id);
