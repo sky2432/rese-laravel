@@ -39,7 +39,9 @@ Route::put('shops/{shop_id}/image', [ShopController::class, 'changeImage'])->nam
 Route::apiResource('shops/evaluation', EvaluationController::class)->except(['index', 'show']);
 
 // メール
-Route::post('users/mail', [MailController::class, 'mail'])->name('mail');
+Route::post('mail', [MailController::class, 'sendForAll'])->name('mail.all');
+Route::post('users/mail', [MailController::class, 'sendForUsers'])->name('mail.users');
+Route::post('owners/mail', [MailController::class, 'sendForOwners'])->name('mail.owners');
 
 // 認証
 Route::post('login/{type}', [AuthController::class, 'login'])->name('login');
