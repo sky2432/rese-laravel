@@ -2,43 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MailRequest;
 use App\Models\Owner;
 use App\Models\User;
 use App\Notifications\MailNotification;
-use Illuminate\Http\Request;
 
 class MailController extends Controller
 {
-    public function sendForAll(Request $request)
+    public function sendForAll(MailRequest $request)
     {
-        if ($request->role === 'admin') {
-            $users = User::all();
-            $this->sendMail($users, $request);
-            $owners = Owner::all();
-            $this->sendMail($owners, $request);
-        } else {
-            return response()->json([], 400);
-        }
+        $users = User::all();
+        $this->sendMail($users, $request);
+        $owners = Owner::all();
+        $this->sendMail($owners, $request);
     }
 
-    public function sendForUsers(Request $request)
+    public function sendForUsers(MailRequest $request)
     {
-        if ($request->role === 'admin') {
-            $users = User::all();
-            $this->sendMail($users, $request);
-        } else {
-            return response()->json([], 400);
-        }
+        $users = User::all();
+        $this->sendMail($users, $request);
     }
 
-    public function sendForOwners(Request $request)
+    public function sendForOwners(MailRequest $request)
     {
-        if ($request->role === 'admin') {
-            $owners = Owner::all();
-            $this->sendMail($owners, $request);
-        } else {
-            return response()->json([], 400);
-        }
+        $owners = Owner::all();
+        $this->sendMail($owners, $request);
     }
 
     public function sendMail($items, $request)
