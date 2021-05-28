@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ShopRequest;
 use App\Models\Shop;
-use App\Services\EvaluationService;
-use Illuminate\Http\Request;
 use App\Models\Evaluation;
 use App\Models\Favorite;
 use App\Models\Reservation;
+use App\Services\EvaluationService;
+use App\Services\ImageService;
+use App\Http\Requests\ShopRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ShopController extends Controller
@@ -69,7 +70,7 @@ class ShopController extends Controller
     public function updateImage(Request $request, $shop_id)
     {
         $item = Shop::find($shop_id);
-        $this->deleteImage($item);
+        ImageService::deleteImage($item->image_url);
 
         $url = $this->uploadImage($request);
         $item->image_url = $url;
@@ -87,12 +88,6 @@ class ShopController extends Controller
         return $url;
     }
 
-    public function deleteImage($item)
-    {
-        $file_name = basename($item->image_url);
-        Storage::disk('s3')->delete($file_name);
-    }
-
     public function destroy($shop_id)
     {
         Favorite::where('shop_id', $shop_id)->delete();
@@ -100,7 +95,8 @@ class ShopController extends Controller
         Evaluation::where('shop_id', $shop_id)->delete();
 
         $item = Shop::find($shop_id);
-        $this->deleteImage($item);
+        ImageService::deleteImage($item->image_url);
+
 
         Shop::destroy($shop_id);
 
