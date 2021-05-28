@@ -35,9 +35,7 @@ class ShopController extends Controller
         $item->genre_id = $resData->genre_id;
         $item->overview = $resData->overview;
 
-        $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
-        $url = Storage::disk('s3')->url($path);
-
+        $url = $this->uploadImage($request);
         $item->image_url = $url;
         $item->save();
 
@@ -71,18 +69,28 @@ class ShopController extends Controller
     public function updateImage(Request $request, $shop_id)
     {
         $item = Shop::find($shop_id);
-        $file_name = basename($item->image_url);
-        Storage::disk('s3')->delete($file_name);
+        $this->deleteImage($item);
 
-        $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
-        $url = Storage::disk('s3')->url($path);
-
+        $url = $this->uploadImage($request);
         $item->image_url = $url;
         $item->save();
 
         return response()->json([
             'data' => $item
         ], config('const.STATUS_CODE.OK'));
+    }
+
+    public function uploadImage($request)
+    {
+        $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
+        $url = Storage::disk('s3')->url($path);
+        return $url;
+    }
+
+    public function deleteImage($item)
+    {
+        $file_name = basename($item->image_url);
+        Storage::disk('s3')->delete($file_name);
     }
 
     public function destroy($shop_id)
@@ -92,8 +100,7 @@ class ShopController extends Controller
         Evaluation::where('shop_id', $shop_id)->delete();
 
         $item = Shop::find($shop_id);
-        $file_name = basename($item->image_url);
-        Storage::disk('s3')->delete($file_name);
+        $this->deleteImage($item);
 
         Shop::destroy($shop_id);
 
