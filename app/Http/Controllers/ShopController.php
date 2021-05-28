@@ -15,7 +15,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $items = Shop::with(['area:id,name', 'genre:id,name'])->get();
+        $items = Shop::WithAreaGenre()->get();
         $shops = EvaluationService::createRating($items);
 
         return response()->json([
@@ -48,7 +48,7 @@ class ShopController extends Controller
 
     public function show($shop_id)
     {
-        $item = Shop::with(['area:id,name', 'genre:id,name', 'owner:id,name'])->where('id', $shop_id)->get();
+        $item = Shop::WithAreaGenre()->with('owner:id,name')->where('id', $shop_id)->get();
 
         $shop = EvaluationService::createRating($item);
         $oneShop = $shop[0];

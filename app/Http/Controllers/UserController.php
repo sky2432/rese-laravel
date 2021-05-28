@@ -31,7 +31,7 @@ class UserController extends Controller
         return response()->json([
         ], config('const.STATUS_CODE.NO_CONTENT'));
     }
-
+    
     public function store(Request $request)
     {
         $item = new User;
