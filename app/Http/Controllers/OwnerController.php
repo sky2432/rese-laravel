@@ -53,6 +53,7 @@ class OwnerController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
+    //名前・メールアドレスの更新
     public function update(Request $request, $owner_id)
     {
         UpdateNameEmailRequest::rules($request, $owner_id, 'owners');

@@ -41,6 +41,7 @@ class ChangeReservationStatusCommand extends Command
     {
         $this->info('start');
 
+        //テスト用のコードのためコメントアウトして残している↓
         // Carbon::setTestNow('2021-05-17 10:30:00');
 
         $now = Carbon::now()->format('Y-m-d H:i:00');

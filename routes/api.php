@@ -33,7 +33,7 @@ Route::apiResource('shops/reservation', ReservationController::class)->except(['
 
 // 店舗
 Route::apiResource('shops', ShopController::class);
-Route::put('shops/{shop_id}/image', [ShopController::class, 'changeImage'])->name('shops.image.update');
+Route::put('shops/{shop_id}/image', [ShopController::class, 'updateImage'])->name('shops.image.update');
 
 // 評価
 Route::apiResource('shops/evaluation', EvaluationController::class)->except(['index', 'show']);

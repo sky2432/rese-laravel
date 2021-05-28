@@ -33,6 +33,7 @@ class UserSeeder extends Seeder
 
         $this->createPivotTable($user);
 
+        //ユーザー作成と共に、それぞれのユーザーごとに予約・評価・お気に入りデータを作成
         User::factory()->count(9)->create()->each(function (User $user) {
             $this->createPivotTable($user);
         });
@@ -67,6 +68,7 @@ class UserSeeder extends Seeder
         }
     }
 
+    //10:00〜23:30の間で30分おきの来店日時を作成
     public function createVisitsDateAndStatus()
     {
         $faker = FakerFactory::create('ja_JP');
@@ -84,6 +86,8 @@ class UserSeeder extends Seeder
         return [$formatDate, $status];
     }
 
+    //来店日時が現在時刻よりも前だった場合、予約状況をvisitedかcancelledにする
+    //来店日時が現在時刻よりも後だった場合、予約状況をreservingかcancelledにする
     public function createStatus($formatDate)
     {
         $faker = FakerFactory::create('ja_JP');

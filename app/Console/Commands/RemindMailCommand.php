@@ -43,6 +43,7 @@ class RemindMailCommand extends Command
     {
         $this->info('start');
 
+        //テスト用のコードのためコメントアウトして残している↓
         // Carbon::setTestNow('2021-05-01 00:00:00');
 
         $now = Carbon::now();

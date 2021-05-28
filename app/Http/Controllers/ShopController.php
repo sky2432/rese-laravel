@@ -68,6 +68,23 @@ class ShopController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
+    public function updateImage(Request $request, $shop_id)
+    {
+        $item = Shop::find($shop_id);
+        $file_name = basename($item->image_url);
+        Storage::disk('s3')->delete($file_name);
+
+        $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
+        $url = Storage::disk('s3')->url($path);
+
+        $item->image_url = $url;
+        $item->save();
+
+        return response()->json([
+            'data' => $item
+        ], config('const.STATUS_CODE.OK'));
+    }
+
     public function destroy($shop_id)
     {
         Favorite::where('shop_id', $shop_id)->delete();
@@ -82,22 +99,4 @@ class ShopController extends Controller
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }
-
-    public function changeImage(Request $request, $shop_id)
-    {
-        $item = Shop::find($shop_id);
-        $file_name = basename($item->image_url);
-        Storage::disk('s3')->delete($file_name);
-
-        $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
-        $url = Storage::disk('s3')->url($path);
-
-        $item->image_url = $url;
-        $item->save();
-
-         return response()->json([
-            'data' => $item
-        ], config('const.STATUS_CODE.OK'));
-    }
-
 }
