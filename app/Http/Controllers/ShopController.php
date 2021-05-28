@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shop;
-use App\Models\Evaluation;
-use App\Models\Favorite;
-use App\Models\Reservation;
 use App\Services\EvaluationService;
 use App\Services\ImageService;
 use App\Http\Requests\ShopRequest;
+use App\Services\DeleteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -90,15 +88,8 @@ class ShopController extends Controller
 
     public function destroy($shop_id)
     {
-        Favorite::where('shop_id', $shop_id)->delete();
-        Reservation::where('shop_id', $shop_id)->delete();
-        Evaluation::where('shop_id', $shop_id)->delete();
-
         $item = Shop::find($shop_id);
-        ImageService::deleteImage($item->image_url);
-
-
-        Shop::destroy($shop_id);
+        DeleteService::deleteShopAllData($item);
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }

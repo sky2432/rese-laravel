@@ -6,10 +6,7 @@ use App\Http\Requests\UpdateNameEmailRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Owner;
-use App\Models\Evaluation;
-use App\Models\Favorite;
-use App\Models\Reservation;
-use App\Models\Shop;
+use App\Services\DeleteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -81,12 +78,9 @@ class OwnerController extends Controller
 
     public function destroy($owner_id)
     {
-        $shop_id = Owner::find($owner_id)->shop->id;
-        if ($shop_id) {
-            Favorite::where('shop_id', $shop_id)->delete();
-            Reservation::where('shop_id', $shop_id)->delete();
-            Evaluation::where('shop_id', $shop_id)->delete();
-            Shop::destroy($shop_id);
+        $shop = Owner::find($owner_id)->shop;
+        if ($shop) {
+            DeleteService::deleteShopAllData($shop);
         }
 
         Owner::destroy($owner_id);
