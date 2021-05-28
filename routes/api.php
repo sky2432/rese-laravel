@@ -11,16 +11,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
 // ユーザー
-Route::apiResource('users', UserController::class);
-Route::put('users/{user_id}/password', [UserController::class, 'updatePassword'])->name('users.password.update');
 Route::post('users/confirm', [UserController::class, 'confirm'])->name('users.confirm');
+Route::put('users/{user_id}/password', [UserController::class, 'updatePassword'])->name('users.password.update');
+Route::apiResource('users', UserController::class);
 
 // オーナー
-Route::apiResource('owners', OwnerController::class);
 Route::get('owners/{owner_id}/shop', [OwnerController::class, 'showOwnerShop'])->name('owners.shop');
 Route::put('owners/{owner_id}/password', [OwnerController::class, 'updatePassword'])->name('owners.password.update');
 Route::post('owners/confirm', [OwnerController::class, 'confirm'])->name('owners.confirm');
-
+Route::apiResource('owners', OwnerController::class);
 
 // お気に入り
 Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->name('favorites.show');
@@ -32,8 +31,8 @@ Route::get('shops/{shop_id}/reservations', [ReservationController::class, 'showS
 Route::apiResource('shops/reservation', ReservationController::class)->except(['index', 'show']);
 
 // 店舗
-Route::apiResource('shops', ShopController::class);
 Route::put('shops/{shop_id}/image', [ShopController::class, 'updateImage'])->name('shops.image.update');
+Route::apiResource('shops', ShopController::class);
 
 // 評価
 Route::apiResource('shops/evaluation', EvaluationController::class)->except(['index', 'show']);
