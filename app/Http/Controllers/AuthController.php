@@ -7,6 +7,7 @@ use App\Models\Owner;
 use App\Models\Admin;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -15,6 +16,9 @@ class AuthController extends Controller
         if ($type === config('const.ROLE.USER')) {
             $item = User::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'users');
+            $token = Str::random(60);
+            $item->api_token = $token;
+            $item->save();
             $role = config('const.ROLE.USER');
         }
         if ($type === config('const.ROLE.OWNER')) {
@@ -32,6 +36,7 @@ class AuthController extends Controller
                 'auth' => true,
                 'role' => $role,
                 'data' => $item,
+                'token' => $token,
             ], config('const.STATUS_CODE.OK'));
     }
 
