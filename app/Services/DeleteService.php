@@ -8,16 +8,20 @@ use App\Models\Reservation;
 use App\Models\Shop;
 use App\Services\ImageService;
 
-
 class DeleteService
 {
     public static function deleteShopAllData($shop)
     {
-        $shopId = $shop->id;
-        Favorite::where('shop_id', $shopId)->delete();
-        Reservation::where('shop_id', $shopId)->delete();
-        Evaluation::where('shop_id', $shopId)->delete();
+        $shop_id = $shop->id;
+        self::deletePivotTable('shop_id', $shop_id);
         ImageService::deleteImage($shop->image_url);
-        Shop::destroy($shopId);
+        Shop::destroy($shop_id);
+    }
+
+    public static function deletePivotTable($colum_name, $id)
+    {
+        Favorite::where($colum_name, $id)->delete();
+        Reservation::where($colum_name, $id)->delete();
+        Evaluation::where($colum_name, $id)->delete();
     }
 }

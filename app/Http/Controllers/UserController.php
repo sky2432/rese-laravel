@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateNameEmailRequest;
 use App\Http\Requests\UpdatePasswordRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Models\Evaluation;
-use App\Models\Favorite;
-use App\Models\Reservation;
-use App\Models\User;
+use App\Services\DeleteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,7 +29,7 @@ class UserController extends Controller
         return response()->json([
         ], config('const.STATUS_CODE.NO_CONTENT'));
     }
-    
+
     public function store(Request $request)
     {
         $item = new User;
@@ -71,9 +69,7 @@ class UserController extends Controller
 
     public function destroy($user_id)
     {
-        Favorite::where('user_id', $user_id)->delete();
-        Reservation::where('user_id', $user_id)->delete();
-        Evaluation::where('user_id', $user_id)->delete();
+        DeleteService::deletePivotTable('user_id', $user_id);
 
         User::destroy($user_id);
 
