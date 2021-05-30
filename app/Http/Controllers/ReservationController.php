@@ -11,6 +11,12 @@ use App\Services\EvaluationService;
 
 class ReservationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')
+                 ->except(['showShopReservations']);
+    }
+
     public function showUserReservations($user_id)
     {
         $items = User::find($user_id)->shopsReserved()->with(['area:id,name', 'genre:id,name'])->oldest('visited_on')->get();

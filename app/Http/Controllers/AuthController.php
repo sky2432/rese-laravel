@@ -11,6 +11,12 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')
+                 ->only(['logout']);
+    }
+
     public function login(Request $request, $type)
     {
         if ($type === config('const.ROLE.USER')) {
