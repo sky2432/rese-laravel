@@ -17,24 +17,21 @@ class AuthController extends Controller
             $item = User::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'users');
             $token = Str::random(60);
-            $item->api_token = $token;
-            $item->save();
+            $item->update(['api_token' => $token]);
             $role = config('const.ROLE.USER');
         }
         if ($type === config('const.ROLE.OWNER')) {
             $item = Owner::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'owners');
             $token = Str::random(60);
-            $item->api_token = $token;
-            $item->save();
+            $item->update(['api_token' => $token]);
             $role = config('const.ROLE.OWNER');
         }
         if ($type === config('const.ROLE.ADMIN')) {
             $item = Admin::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'admins');
             $token = Str::random(60);
-            $item->api_token = $token;
-            $item->save();
+            $item->update(['api_token' => $token]);
             $role = config('const.ROLE.ADMIN');
         }
 

@@ -9,7 +9,14 @@ class Admin extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'email',
+        'api_token',
+    ];
+
     protected $hidden = [
-        'password'
+        'password',
+        'api_token',
     ];
 }

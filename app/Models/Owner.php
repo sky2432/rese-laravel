@@ -12,11 +12,13 @@ class Owner extends Model
 
     protected $fillable = [
         'name',
-        'email'
+        'email',
+        'api_token',
     ];
 
     protected $hidden = [
-        'password'
+        'password',
+        'api_token',
     ];
 
     public function shop()
