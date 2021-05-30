@@ -11,7 +11,7 @@ class FavoriteController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:user');
     }
 
     public function show($user_id)

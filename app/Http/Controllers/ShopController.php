@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ShopController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:user')->only('index', 'show');
+    }
+
     public function index()
     {
         $items = Shop::WithAreaGenre()->get();
