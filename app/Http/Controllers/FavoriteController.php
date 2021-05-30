@@ -9,11 +9,6 @@ use App\Services\EvaluationService;
 
 class FavoriteController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:user');
-    }
-
     public function show($user_id)
     {
         $items = User::find($user_id)->favoriteShops()->with(['area:id,name', 'genre:id,name'])->get();

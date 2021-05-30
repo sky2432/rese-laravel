@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class EvaluationController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:user');
-    }
-
     public function store(Request $request)
     {
         $item = new Evaluation();

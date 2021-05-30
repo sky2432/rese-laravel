@@ -11,12 +11,6 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:user')
-                 ->only(['logout']);
-    }
-
     public function login(Request $request, $type)
     {
         if ($type === config('const.ROLE.USER')) {
@@ -30,11 +24,17 @@ class AuthController extends Controller
         if ($type === config('const.ROLE.OWNER')) {
             $item = Owner::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'owners');
+            $token = Str::random(60);
+            $item->api_token = $token;
+            $item->save();
             $role = config('const.ROLE.OWNER');
         }
         if ($type === config('const.ROLE.ADMIN')) {
             $item = Admin::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'admins');
+            $token = Str::random(60);
+            $item->api_token = $token;
+            $item->save();
             $role = config('const.ROLE.ADMIN');
         }
 
