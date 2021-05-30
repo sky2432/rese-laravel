@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:user,owner')
+        $this->middleware('auth:user,owner,admin')
                  ->except(['store', 'confirm']);
     }
 

@@ -10,7 +10,7 @@ use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
-Route::middleware(['auth:user,owner'])->group(function () {
+Route::middleware(['auth:user,owner,admin'])->group(function () {
     // オーナー
     Route::get('owners/{owner_id}/shop', [OwnerController::class, 'showOwnerShop'])->name('owners.shop');
     Route::put('owners/{owner_id}/password', [OwnerController::class, 'updatePassword'])->name('owners.password.update');
