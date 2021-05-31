@@ -19,6 +19,7 @@ class ShopController extends Controller
 
         return response()->json([
             'data' => $shops,
+            'user' => $items,
         ], config('const.STATUS_CODE.OK'));
     }
 
@@ -84,6 +85,13 @@ class ShopController extends Controller
         $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
         $url = Storage::disk('s3')->url($path);
         return $url;
+    }
+
+    public function downloadImage($shop_id)
+    {
+        $item = Shop::find($shop_id);
+        $file_name = basename($item->image_url);
+        return Storage::disk('s3')->download($file_name);
     }
 
     public function destroy($shop_id)
