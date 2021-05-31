@@ -91,7 +91,12 @@ class ShopController extends Controller
     {
         $item = Shop::find($shop_id);
         $file_name = basename($item->image_url);
-        return Storage::disk('s3')->download($file_name);
+        if (Storage::disk('s3')->exists($file_name)) {
+            return Storage::disk('s3')->download($file_name);
+        } else {
+            return response()->json([
+            ], config('const.STATUS_CODE.NO_CONTENT'));
+        }
     }
 
     public function destroy($shop_id)
