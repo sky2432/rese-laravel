@@ -26,7 +26,7 @@ class AuthTest extends TestCase
 
         $response = $this->post($this->api_url, $test_user_data);
 
-        $response->assertStatus(200);
+        $response->assertOk();
 
         $response = $this->post('/api/login/user', [
             'email' => 'test@test.com',
@@ -48,10 +48,10 @@ class AuthTest extends TestCase
         $response->assertOk();
     }
 
-    // public function test_unauth()
-    // {
-    //     $response = $this->get(route('users.index'));
+    public function test_unauth()
+    {
+        $response = $this->get(route('users.index'));
 
-    //     $response->assertStatus(500);
-    // }
+        $response->assertStatus(500);
+    }
 }

@@ -33,7 +33,6 @@ class User extends Authenticatable
         'api_token',
     ];
 
-
     public function favoriteShops()
     {
         return $this->belongsToMany(Shop::class, 'favorites')
