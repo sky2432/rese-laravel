@@ -53,7 +53,7 @@ class UserController extends Controller
         UpdateNameEmailRequest::rules($request, $user_id, 'users');
 
         $item = User::find($user_id);
-        $item->fill($request->all())->save();
+        $item->update($request->all());
 
         return response()->json([
             'data' => $item
