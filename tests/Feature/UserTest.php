@@ -15,12 +15,11 @@ class UserTest extends TestCase
     use WithoutMiddleware;
 
     protected $api_url = '/api/users';
-    protected $user_id;
     protected $data_count = 2;
     protected $test_email1 = 'test1@test.com';
     protected $test_email2 = 'test2@test.com';
     protected $test_email3 = 'test3@test.com';
-    protected $test_name = 'TestUser';
+    protected $test_name = 'テストユーザー';
 
 
     protected function setUp(): Void
@@ -32,9 +31,10 @@ class UserTest extends TestCase
             ['email' => $this->test_email2],
         ))->create();
 
-        $this->assertDatabaseCount('users', $this->data_count);
-
-        $this->user_id = User::pluck('id')->random();
+        $this->assertDatabaseHas('users', [
+            'email' => $this->test_email1,
+            'email' => $this->test_email2,
+        ]);
     }
 
     public function test_index()
@@ -58,30 +58,34 @@ class UserTest extends TestCase
 
         $response = $this->post($this->api_url, $test_user_data);
 
-        $response->assertOk()->assertJsonFragment([
+        $response->assertOk();
+        $this->assertDatabaseHas('users', [
+            'name' => $this->test_name,
             'email' => $this->test_email3,
         ]);
     }
 
     public function test_update()
     {
+        $user = User::where('email', $this->test_email1)->first();
+
         $payload = [
-            'name' => $this->test_name,
+            'name' => $user->name,
             'email' => $this->test_email3
         ];
 
-        $response = $this->put("api/users/" . $this->user_id, $payload);
+        $response = $this->put("api/users/" . $user->id, $payload);
+        $response->assertOk();
 
-        $response->assertOk()->assertJsonFragment([
-            'email' => $this->test_email3
-        ]);
+        $update_user = User::find($user->id);
+        $this->assertSame($this->test_email3, $update_user->email);
     }
 
     public function test_destroy()
     {
-        $user = User::find($this->user_id)->toArray();
+        $user = User::where('email', $this->test_email1)->first()->toArray();
 
-        $response = $this->delete("api/users/" . $this->user_id);
+        $response = $this->delete("api/users/" . $user['id']);
 
         $response->assertNoContent();
         $this->assertDeleted('users', $user);

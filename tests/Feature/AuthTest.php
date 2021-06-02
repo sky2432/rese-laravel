@@ -19,7 +19,7 @@ class AuthTest extends TestCase
         parent::setUp();
 
         $test_user_data = [
-            'name' => 'TestUser',
+            'name' => 'テストユーザー',
             'email' => 'test@test.com',
             'password' => 1234,
         ];
