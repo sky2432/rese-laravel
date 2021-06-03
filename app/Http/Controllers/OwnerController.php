@@ -56,7 +56,7 @@ class OwnerController extends Controller
         UpdateNameEmailRequest::rules($request, $owner_id, 'owners');
 
         $item = Owner::find($owner_id);
-        $item->fill($request->all())->save();
+        $item->update($request->all());
 
         return response()->json([
             'data' => $item
