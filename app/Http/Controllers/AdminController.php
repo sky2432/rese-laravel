@@ -42,11 +42,11 @@ class AdminController extends Controller
     }
 
     //名前・メールアドレスの更新
-    public function update(Request $request, $user_id)
+    public function update(Request $request, $admin_id)
     {
-        UpdateNameEmailRequest::rules($request, $user_id, 'admins');
+        UpdateNameEmailRequest::rules($request, $admin_id, 'admins');
 
-        $item = Admin::find($user_id);
+        $item = Admin::find($admin_id);
         $item->update($request->all());
 
         return response()->json([
@@ -54,9 +54,9 @@ class AdminController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
-    public function updatePassword(Request $request, $user_id)
+    public function updatePassword(Request $request, $admin_id)
     {
-        $item = Admin::find($user_id);
+        $item = Admin::find($admin_id);
         UpdatePasswordRequest::rules($request, $item);
 
         $item->password = Hash::make($request->new_password);
@@ -67,9 +67,9 @@ class AdminController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
-    public function destroy($user_id)
+    public function destroy($admin_id)
     {
-        Admin::destroy($user_id);
+        Admin::destroy($admin_id);
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }
