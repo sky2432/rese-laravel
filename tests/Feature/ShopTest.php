@@ -20,7 +20,9 @@ class ShopTest extends TestCase
     public function test_destroy()
     {
         $shop = Shop::factory()->create()->toArray();
-        $this->assertDatabaseCount('shops', 1);
+        $this->assertDatabaseHas('shops', [
+            'id' => $shop['id']
+        ]);
         $shop_key_data = ['shop_id' => $shop['id']];
 
         Favorite::factory()->count(5)->create($shop_key_data);

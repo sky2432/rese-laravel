@@ -17,32 +17,29 @@ class OwnerTest extends TestCase
 
     protected $api_url = 'api/owners/';
 
-    protected function setUp(): Void
-    {
-        parent::setUp();
-
-        $this->seed(OwnerSeeder::class);
-    }
-
     public function test_update_password()
     {
-        $id = Owner::pluck('id')->random();
-        $owner = Owner::find($id);
+        $owner = Owner::factory()->create();
+        $this->assertDatabaseHas('owners', [
+            'id' => $owner->id
+        ]);
 
-        $judge = Hash::check(1234, $owner->password);
+        $current_password = 1234;
+        $new_password = 12345;
 
+        $judge = Hash::check($current_password, $owner->password);
         $this->assertTrue($judge);
 
         $payload = [
-            'password' => 1234,
-            'new_password' => 12345
+            'password' => $current_password,
+            'new_password' => $new_password
         ];
 
         $response = $this->put($this->api_url . $owner->id . "/password", $payload);
         $response->assertOk();
 
-        $update_user = Owner::find($owner->id);
-        $bool = Hash::check(12345, $update_user->password);
-        $this->assertTrue($bool);
+        $updated_user = Owner::find($owner->id);
+        $result = Hash::check($new_password, $updated_user->password);
+        $this->assertTrue($result);
     }
 }

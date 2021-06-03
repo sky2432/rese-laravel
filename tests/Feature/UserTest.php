@@ -24,17 +24,18 @@ class UserTest extends TestCase
     protected $test_email2 = 'test2@test.com';
     protected $test_email3 = 'test3@test.com';
     protected $test_name = 'テストユーザー';
+    protected $user;
 
 
     protected function setUp(): Void
     {
         parent::setUp();
 
-        User::factory()->count($this->data_count)->state(new Sequence(
+        $users = User::factory()->count($this->data_count)->state(new Sequence(
             ['email' => $this->test_email1],
             ['email' => $this->test_email2],
         ))->create([
-            'password' => Hash::make('1234'),
+            'name' => 'ユーザー'
         ]);
 
         $this->assertDatabaseHas('users', [
@@ -56,6 +57,10 @@ class UserTest extends TestCase
 
     public function test_store()
     {
+        $this->assertDatabaseMissing('users', [
+            'email' => $this->test_email3
+        ]);
+
         $test_user_data = [
             'name' => $this->test_name,
             'email' => $this->test_email3,
@@ -63,10 +68,9 @@ class UserTest extends TestCase
         ];
 
         $response = $this->post($this->api_url, $test_user_data);
-
         $response->assertOk();
+
         $this->assertDatabaseHas('users', [
-            'name' => $this->test_name,
             'email' => $this->test_email3,
         ]);
     }
@@ -75,36 +79,42 @@ class UserTest extends TestCase
     {
         $user = User::where('email', $this->test_email1)->first();
 
+        $this->assertNotSame($user->name, $this->test_name);
+        $this->assertNotSame($user->email, $this->test_email3);
+
         $payload = [
-            'name' => $user->name,
+            'name' => $this->test_name,
             'email' => $this->test_email3
         ];
 
         $response = $this->put($this->api_url . $user->id, $payload);
         $response->assertOk();
 
-        $update_user = User::find($user->id);
-        $this->assertSame($this->test_email3, $update_user->email);
+        $updated_user = User::find($user->id);
+        $this->assertSame($this->test_name, $updated_user->name);
+        $this->assertSame($this->test_email3, $updated_user->email);
     }
 
     public function test_update_password()
     {
         $user = User::where('email', $this->test_email1)->first();
 
-        $judge = Hash::check(1234, $user->password);
+        $current_password = 1234;
+        $new_password = 12345;
 
+        $judge = Hash::check($current_password, $user->password);
         $this->assertTrue($judge);
 
         $payload = [
-            'password' => 1234,
-            'new_password' => 12345
+            'password' => $current_password,
+            'new_password' => $new_password
         ];
 
         $response = $this->put($this->api_url . $user->id . "/password", $payload);
         $response->assertOk();
 
         $update_user = User::find($user->id);
-        $bool = Hash::check(12345, $update_user->password);
+        $bool = Hash::check($new_password, $update_user->password);
         $this->assertTrue($bool);
     }
 

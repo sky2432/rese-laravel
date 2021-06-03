@@ -15,17 +15,15 @@ class CommandTest extends TestCase
 
     public function test_change_status()
     {
-        DB::table('reservations')->insert([
-                'user_id' => 1,
-                'shop_id' => 1,
-                'visited_on' => Carbon::now()->format('Y-m-d H:i:00'),
-                'number_of_visiters' => 2,
-                'status' => 'reserving'
+        $reservation = Reservation::factory()->create([
+            'visited_on' => Carbon::now()->format('Y-m-d H:i:00'),
+            'status' => 'reserving'
         ]);
 
-        $this->assertDatabaseCount('reservations', 1);
+        $this->assertDatabaseHas('reservations', [
+            'id' => $reservation->id
+        ]);
 
-        $reservation = Reservation::first();
         $this->assertSame('reserving', $reservation->status);
 
         $this->artisan('command:change_status');
