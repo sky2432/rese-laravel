@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Evaluation;
+use App\Models\Favorite;
+use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -109,9 +112,22 @@ class UserTest extends TestCase
     {
         $user = User::where('email', $this->test_email1)->first()->toArray();
 
-        $response = $this->delete($this->api_url . $user['id']);
+        $user_key_data = ['user_id' => $user['id']];
 
+        Favorite::factory()->count(5)->create($user_key_data);
+        Reservation::factory()->count(5)->create($user_key_data);
+        Evaluation::factory()->count(5)->create($user_key_data);
+
+        $this->assertDatabaseHas('favorites', $user_key_data);
+        $this->assertDatabaseHas('reservations', $user_key_data);
+        $this->assertDatabaseHas('evaluations', $user_key_data);
+
+        $response = $this->delete($this->api_url . $user['id']);
         $response->assertNoContent();
+
         $this->assertDeleted('users', $user);
+        $this->assertDatabaseMissing('favorites', $user_key_data);
+        $this->assertDatabaseMissing('reservations', $user_key_data);
+        $this->assertDatabaseMissing('evaluations', $user_key_data);
     }
 }

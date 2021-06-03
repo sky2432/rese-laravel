@@ -23,6 +23,7 @@ class ShopTest extends TestCase
 
     public function test_destroy()
     {
+        $this->withoutExceptionHandling();
         $shop_id = Shop::pluck('id')->random();
         $shop = Shop::find($shop_id)->toArray();
 

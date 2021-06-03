@@ -9,6 +9,8 @@ class ImageService
     public static function deleteImage($image_url)
     {
         $file_name = basename($image_url);
-        Storage::disk('s3')->delete($file_name);
+        if (Storage::disk('s3')->exists($file_name)) {
+            Storage::disk('s3')->delete($file_name);
+        }
     }
 }
