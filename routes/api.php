@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\FavoriteController;
@@ -16,6 +17,12 @@ Route::middleware(['auth:user,owner,admin'])->group(function () {
     Route::put('owners/{owner_id}/password', [OwnerController::class, 'updatePassword'])->name('owners.password.update');
     Route::post('owners/confirm', [OwnerController::class, 'confirm'])->name('owners.confirm');
     Route::apiResource('owners', OwnerController::class);
+
+    //管理者
+    Route::put('admins/{admin_id}/password', [AdminController::class, 'updatePassword'])->name('admins.password.update');
+    Route::post('admins/confirm', [AdminController::class, 'confirm'])->name('admins.confirm');
+    Route::apiResource('admins', AdminController::class);
+
 
     // お気に入り
     Route::get('users/{user_id}/favorites', [FavoriteController::class, 'show'])->name('favorites.show');
