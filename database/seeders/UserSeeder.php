@@ -94,7 +94,7 @@ class UserSeeder extends Seeder
         $now = Carbon::now();
         $status = "";
         if ($formatDate->lt($now)) {
-            $status = $faker->randomElement(['visited', 'visited' ,'cancelled']);
+            $status = $faker->randomElement(['visited', 'visited', 'visited', 'cancelled']);
         } else {
             $status = $faker->randomElement(['reserving', 'reserving', 'cancelled']);
         }

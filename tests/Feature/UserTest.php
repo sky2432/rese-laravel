@@ -24,14 +24,12 @@ class UserTest extends TestCase
     protected $test_email2 = 'test2@test.com';
     protected $test_email3 = 'test3@test.com';
     protected $test_name = 'テストユーザー';
-    protected $user;
-
 
     protected function setUp(): Void
     {
         parent::setUp();
 
-        $users = User::factory()->count($this->data_count)->state(new Sequence(
+        User::factory()->count($this->data_count)->state(new Sequence(
             ['email' => $this->test_email1],
             ['email' => $this->test_email2],
         ))->create([

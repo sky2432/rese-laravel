@@ -19,7 +19,7 @@ class CreateReservationsTable extends Migration
             $table->unsignedBigInteger('shop_id')->references('id')->on('shops');
             $table->dateTime('visited_on');
             $table->unsignedSmallInteger('number_of_visiters');
-            $table->enum('status', ['reserving', 'visited', 'cancelled'])->default('reserving');
+            $table->enum('status', ['reserving', 'visited', 'cancelled', 'notVisited'])->default('reserving');
             $table->timestamps();
         });
     }
