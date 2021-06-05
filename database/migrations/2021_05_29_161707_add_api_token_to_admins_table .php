@@ -14,7 +14,7 @@ class AddApiTokenToAdminsTable extends Migration
     public function up()
     {
         Schema::table('admins', function (Blueprint $table) {
-            $table->string('api_token', 80)->after('password')
+            $table->string('api_token', 80)->after('role')
                 ->unique()
                 ->nullable()
                 ->default(null);
