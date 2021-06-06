@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class RegisterRequest extends FormRequest
 {
@@ -23,12 +24,16 @@ class RegisterRequest extends FormRequest
      */
     public static function rules($request, $table_name)
     {
-        return [
-            $request->validate([
-                    'name' => 'required|min:2',
-                    'email' => ['required', 'email',"unique:{$table_name},email"],
-                    'password' => 'required|min:4',
-            ])
+        $rules = [
+            'name' => 'required|min:2',
+            'email' => ['required', 'email',"unique:{$table_name},email"],
+            'password' => 'required|min:4|regex:/^[0-9a-zA-Z]*$/',
         ];
+
+        $messages = [
+            'password.regex' => 'パスワードは半角英数字で入力してください'
+        ];
+
+        return $request->validate($rules, $messages);
     }
 }

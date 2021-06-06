@@ -24,8 +24,7 @@ class LoginRequest extends FormRequest
      */
     public static function rules($request, $item, $table_name)
     {
-        return [
-            $request->validate([
+        $rules = [
             'email' => ['required','email',"exists:{$table_name}",
             ],
             'password' => ['required',
@@ -35,7 +34,8 @@ class LoginRequest extends FormRequest
                     }
                 },
             ]
-            ])
         ];
+
+        return $request->validate($rules);
     }
 }

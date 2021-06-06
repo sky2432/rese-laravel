@@ -24,11 +24,11 @@ class UpdateNameEmailRequest extends FormRequest
      */
     public static function rules($request, $id, $table_name)
     {
-        return [
-            $request->validate([
+        $rules = [
             'name' => ['required','min:2'],
-            'email' => ['required','email',Rule::unique($table_name)->ignore($id)]
-            ])
+            'email' => ['required','email', Rule::unique($table_name)->ignore($id)]
         ];
+
+        return $request->validate($rules);
     }
 }
