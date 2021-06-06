@@ -34,6 +34,7 @@ class ShopController extends Controller
         $item->area_id = $resData->area_id;
         $item->genre_id = $resData->genre_id;
         $item->overview = $resData->overview;
+        $item->address = $resData->address;
 
         $url = $this->uploadImage($request);
         $item->image_url = $url;

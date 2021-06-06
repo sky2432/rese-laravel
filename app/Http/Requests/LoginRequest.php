@@ -33,9 +33,14 @@ class LoginRequest extends FormRequest
                         return $fail('パスワードが間違っています。');
                     }
                 },
+                'regex:/^[0-9a-zA-Z]*$/'
             ]
         ];
 
-        return $request->validate($rules);
+        $messages = [
+            'password.regex' => 'パスワードは半角英数字で入力してください'
+        ];
+
+        return $request->validate($rules, $messages);
     }
 }
