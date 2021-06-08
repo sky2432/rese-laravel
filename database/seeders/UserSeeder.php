@@ -29,9 +29,9 @@ class UserSeeder extends Seeder
             ],
         ]);
 
-        $user = User::find(1);
+        $mainUser = User::where('email', 'test1@test.com')->first();
 
-        $this->createPivotTable($user);
+        $this->createPivotTable($mainUser);
 
         //ユーザー作成と共に、それぞれのユーザーごとに予約・評価・お気に入りデータを作成
         User::factory()->count(9)->create()->each(function (User $user) {
