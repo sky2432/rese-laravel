@@ -11,6 +11,8 @@ class ImageService
         $file_name = basename($image_url);
         if (Storage::disk('s3')->exists($file_name)) {
             Storage::disk('s3')->delete($file_name);
+        } else {
+            return;
         }
     }
 }

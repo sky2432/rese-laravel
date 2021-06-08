@@ -67,6 +67,16 @@ class ShopController extends Controller
         ], config('const.STATUS_CODE.OK'));
     }
 
+    public function updateAddress(Request $request, $shop_id)
+    {
+        $item = Shop::find($shop_id);
+        $item->update(['address' => $request->address]);
+
+        return response()->json([
+            'data' => $item
+        ], config('const.STATUS_CODE.OK'));
+    }
+
     public function updateImage(Request $request, $shop_id)
     {
         $item = Shop::find($shop_id);

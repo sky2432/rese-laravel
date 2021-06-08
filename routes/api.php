@@ -35,6 +35,7 @@ Route::middleware(['auth:user,owner,admin'])->group(function () {
 
     // 店舗
     Route::put('shops/{shop_id}/image', [ShopController::class, 'updateImage'])->name('shops.image.update');
+    Route::put('shops/{shop_id}/address', [ShopController::class, 'updateAddress'])->name('shops.image.address');
     Route::get('shops/{shop_id}/image', [ShopController::class, 'downloadImage'])->name('shops.image.download');
     Route::apiResource('shops', ShopController::class);
 
