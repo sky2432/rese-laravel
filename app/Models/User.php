@@ -35,7 +35,7 @@ class User extends Authenticatable
 
     public function favoriteShops()
     {
-        return $this->belongsToMany(Shop::class, 'favorites')
+        return $this->belongsToMany(Shop::class, 'favorites', 'user_id', 'shop_id')
                     ->as('favorite')
                     ->withPivot('id')
                     ->withTimestamps();
@@ -43,14 +43,14 @@ class User extends Authenticatable
 
     public function shopsReserved()
     {
-        return $this->belongsToMany(Shop::class, 'reservations')
+        return $this->belongsToMany(Shop::class, 'reservations', 'user_id', 'shop_id')
                     ->as('reservation')
                     ->withPivot('id', 'visited_on', 'number_of_visiters', 'status');
     }
 
     public function shopsEvaluated()
     {
-        return $this->belongsToMany(Shop::class, 'evaluations')
+        return $this->belongsToMany(Shop::class, 'evaluations', 'user_id', 'shop_id')
                     ->as('evaluation')
                     ->withPivot('evaluation');
     }
