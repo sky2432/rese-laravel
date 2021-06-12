@@ -20,7 +20,9 @@ class CreateShopsTable extends Migration
             $table->unsignedBigInteger('area_id')->references('id')->on('areas');
             $table->unsignedBigInteger('genre_id')->references('id')->on('genres');
             $table->string('overview', 255);
-            $table->string('address', 255);
+            $table->string('postal_code', 255);
+            $table->string('main_address', 255);
+            $table->string('option_address', 255)->nullable();
             $table->string('image_url', 255);
             $table->timestamps();
         });
