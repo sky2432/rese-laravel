@@ -19,22 +19,20 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            [
+        $user1 = User::factory()->create([
             'name' => 'そら',
             'email' => 'test1@test.com',
-            'password' => Hash::make('1234'),
-            'created_at' => now(),
-            'updated_at'=> now(),
-            ],
         ]);
 
-        $mainUser = User::where('email', 'test1@test.com')->first();
+        $user2 = User::factory()->create([
+            'email' => 'test2@test.com',
+        ]);
 
-        $this->createPivotTable($mainUser);
+        $this->createPivotTable($user1);
+        $this->createPivotTable($user2);
 
         //ユーザー作成と共に、それぞれのユーザーごとに予約・評価・お気に入りデータを作成
-        User::factory()->count(9)->create()->each(function (User $user) {
+        User::factory()->count(8)->create()->each(function (User $user) {
             $this->createPivotTable($user);
         });
     }
