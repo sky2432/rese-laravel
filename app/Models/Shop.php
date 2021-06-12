@@ -34,11 +34,6 @@ class Shop extends Model
                     ->withPivot('evaluation');
     }
 
-    public function area()
-    {
-        return $this->belongsTo(Area::class);
-    }
-
     public function genre()
     {
         return $this->belongsTo(Genre::class);
@@ -62,10 +57,5 @@ class Shop extends Model
     public function owner()
     {
         return $this->belongsTo(Owner::class);
-    }
-
-    public function scopeWithAreaGenre($query)
-    {
-        return $query->with(['area:id,name', 'genre:id,name']);
     }
 }

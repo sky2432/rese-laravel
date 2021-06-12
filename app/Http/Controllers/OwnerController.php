@@ -43,7 +43,7 @@ class OwnerController extends Controller
 
     public function show($owner_id)
     {
-        $item = Owner::with(['shop', 'shop.area:id,name', 'shop.genre:id,name'])->where('id', $owner_id)->first();
+        $item = Owner::with(['shop', 'shop.genre:id,name'])->where('id', $owner_id)->first();
 
         return response()->json([
             'data' => $item
@@ -90,7 +90,7 @@ class OwnerController extends Controller
 
     public function showOwnerShop($owner_id)
     {
-        $item = Owner::find($owner_id)->shop()->with(['area:id,name', 'genre:id,name'])->first();
+        $item = Owner::find($owner_id)->shop()->with('genre:id,name')->first();
 
         if ($item) {
             return response()->json([

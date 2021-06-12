@@ -17,7 +17,6 @@ class CreateShopsTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->unsignedBigInteger('owner_id')->references('id')->on('owners');
-            $table->unsignedBigInteger('area_id')->references('id')->on('areas');
             $table->unsignedBigInteger('genre_id')->references('id')->on('genres');
             $table->string('overview', 255);
             $table->string('postal_code', 255);

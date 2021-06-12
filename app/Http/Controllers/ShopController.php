@@ -14,7 +14,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $items = Shop::WithAreaGenre()->get();
+        $items = Shop::with('genre:id,name')->get();
         $shops = EvaluationService::createRating($items);
 
         return response()->json([
@@ -31,7 +31,6 @@ class ShopController extends Controller
         $item = new Shop();
         $item->name = $resData->name;
         $item->owner_id = $resData->owner_id;
-        $item->area_id = 1;
         $item->genre_id = $resData->genre_id;
         $item->overview = $resData->overview;
         $item->postal_code = $resData->postal_code;
@@ -53,7 +52,7 @@ class ShopController extends Controller
 
     public function show($shop_id)
     {
-        $item = Shop::WithAreaGenre()->with('owner:id,name')->where('id', $shop_id)->get();
+        $item = Shop::with(['genre:id,name','owner:id,name'])->where('id', $shop_id)->get();
 
         $shop = EvaluationService::createRating($item);
         $oneShop = $shop[0];
@@ -72,7 +71,7 @@ class ShopController extends Controller
             'data' => $item
         ], config('const.STATUS_CODE.OK'));
     }
-    
+
     public function updateImage(Request $request, $shop_id)
     {
         $item = Shop::find($shop_id);

@@ -13,7 +13,7 @@ class ReservationController extends Controller
 {
     public function showUserReservations($user_id)
     {
-        $items = User::find($user_id)->shopsReserved()->with(['area:id,name', 'genre:id,name'])->oldest('visited_on')->get();
+        $items = User::find($user_id)->shopsReserved()->with('genre:id,name')->oldest('visited_on')->get();
 
         $shops = EvaluationService::createRating($items);
 

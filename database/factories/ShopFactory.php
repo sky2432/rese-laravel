@@ -24,7 +24,6 @@ class ShopFactory extends Factory
         return [
             'name' => $this->faker->word,
             'owner_id' => rand(1, 20),
-            'area_id' => rand(1, 3),
             'genre_id' => rand(1, 5),
             'overview' => $this->faker->realText(50),
             'image_url' => $this->faker->url()
