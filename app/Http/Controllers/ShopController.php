@@ -31,10 +31,16 @@ class ShopController extends Controller
         $item = new Shop();
         $item->name = $resData->name;
         $item->owner_id = $resData->owner_id;
-        $item->area_id = $resData->area_id;
+        $item->area_id = 1;
         $item->genre_id = $resData->genre_id;
         $item->overview = $resData->overview;
-        $item->address = $resData->address;
+        $item->postal_code = $resData->postal_code;
+        $item->main_address = $resData->main_address;
+        if ($resData->option_address !== "none") {
+            $item->option_address = $resData->option_address;
+        } else {
+            $item->option_address = null;
+        }
 
         $url = $this->uploadImage($request);
         $item->image_url = $url;
@@ -66,17 +72,7 @@ class ShopController extends Controller
             'data' => $item
         ], config('const.STATUS_CODE.OK'));
     }
-
-    public function updateAddress(Request $request, $shop_id)
-    {
-        $item = Shop::find($shop_id);
-        $item->update(['address' => $request->address]);
-
-        return response()->json([
-            'data' => $item
-        ], config('const.STATUS_CODE.OK'));
-    }
-
+    
     public function updateImage(Request $request, $shop_id)
     {
         $item = Shop::find($shop_id);
