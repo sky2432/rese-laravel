@@ -21,11 +21,11 @@ class UserSeeder extends Seeder
     {
         $user1 = User::factory()->create([
             'name' => 'そら',
-            'email' => 'test1@test.com',
+            'email' => 'user1@test.com',
         ]);
 
         $user2 = User::factory()->create([
-            'email' => 'test2@test.com',
+            'email' => 'user2@test.com',
         ]);
 
         $this->createPivotTable($user1);
