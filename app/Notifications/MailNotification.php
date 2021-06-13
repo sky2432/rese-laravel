@@ -44,7 +44,7 @@ class MailNotification extends Notification
                     ->subject($this->request->subject)
                     ->line($notifiable->name . "様")
                     ->line($this->request->content)
-                    ->action('Reseへログイン', url('http://localhost:8080/login'))
+                    ->action('Reseへログイン', url(config('const.LOGIN_URL')))
                     ->salutation('Rese運営より');
     }
 

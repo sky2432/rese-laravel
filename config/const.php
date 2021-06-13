@@ -9,5 +9,6 @@ return [
     'USER' => 'user',
     'OWNER' => 'owner',
     'ADMIN' => 'admin'
-  ]
+  ],
+  'LOGIN_URL' => env('LOGIN_URL'),
 ];
