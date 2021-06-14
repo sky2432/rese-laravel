@@ -25,8 +25,8 @@ class UpdateNameEmailRequest extends FormRequest
     public static function rules($request, $id, $table_name)
     {
         $rules = [
-            'name' => ['required','min:2'],
-            'email' => ['required','email', Rule::unique($table_name)->ignore($id)]
+            'name' => ['required', 'min:2', 'max:10'],
+            'email' => ['required', 'email', 'max:255', Rule::unique($table_name)->ignore($id), ]
         ];
 
         return $request->validate($rules);

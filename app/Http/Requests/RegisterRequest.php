@@ -25,9 +25,9 @@ class RegisterRequest extends FormRequest
     public static function rules($request, $table_name)
     {
         $rules = [
-            'name' => 'required|min:2',
-            'email' => ['required', 'email',"unique:{$table_name},email"],
-            'password' => 'required|min:4|regex:/^[0-9a-zA-Z]*$/',
+            'name' => 'required|min:2|max:10',
+            'email' => ['required', 'email', 'max:255', "unique:{$table_name},email"],
+            'password' => 'required|min:4|max:255|regex:/^[0-9a-zA-Z]*$/',
         ];
 
         $messages = [

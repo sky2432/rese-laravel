@@ -27,15 +27,15 @@ class LoginRequest extends FormRequest
         $rules = [
             'email' => ['required','email',"exists:{$table_name}",
             ],
-            'password' => ['required',
+            'password' => ['required', 'regex:/^[0-9a-zA-Z]*$/',
                 function ($attribute, $value, $fail) use ($item) {
                     if ($item && !(Hash::check($value, $item->password))) {
                         return $fail('パスワードが間違っています。');
                     }
                 },
-                'regex:/^[0-9a-zA-Z]*$/'
-            ]
-        ];
+                ]
+            ];
+
 
         $messages = [
             'password.regex' => 'パスワードは半角英数字で入力してください'

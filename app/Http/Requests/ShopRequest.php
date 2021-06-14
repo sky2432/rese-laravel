@@ -25,10 +25,11 @@ class ShopRequest extends FormRequest
     {
         return [
             'name' => 'required|max:10',
-            'genre_id' => 'required',
+            'genre_id' => 'required|numeric',
             'overview' => 'required|max:255',
             'postal_code' => 'required|size:7',
-            'main_address' => 'required',
+            'main_address' => 'required|max:255',
+            'option_address' => 'max:255'
         ];
     }
 }

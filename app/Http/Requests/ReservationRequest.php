@@ -25,7 +25,7 @@ class ReservationRequest extends FormRequest
     {
         return [
             'visited_on' => 'required',
-            'number_of_visiters' => 'required'
+            'number_of_visiters' => 'required|numeric'
         ];
     }
 }
