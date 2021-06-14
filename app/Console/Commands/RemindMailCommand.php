@@ -49,7 +49,7 @@ class RemindMailCommand extends Command
         $now = Carbon::now();
         $addDay = $now->copy()->addDay()->format('Y-m-d H:i:00');
 
-        $items = Reservation::where('date', $addDay)->get();
+        $items = Reservation::where('visited_on', $addDay)->get();
 
         foreach ($items as $item) {
             $user = $item->user;
