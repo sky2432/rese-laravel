@@ -11,6 +11,9 @@ class RemindNotification extends Notification
 {
     use Queueable;
 
+    protected $item;
+    protected $shop;
+
     /**
      * Create a new notification instance.
      *
@@ -45,8 +48,8 @@ class RemindNotification extends Notification
                     ->subject('予約リマインド通知')
                     ->line($notifiable->name . "様")
                     ->line("店名：" . $this->shop->name)
-                    ->line("予約日時：" . $this->item->date)
-                    ->line("人数：" . $this->item->number)
+                    ->line("来店日時：" . $this->item->visited_on)
+                    ->line("来店人数：" . $this->item->number_of_visiters)
                     ->action('Reseへログイン', url('http://localhost:8080/login'))
                     ->salutation('Rese運営より');
     }

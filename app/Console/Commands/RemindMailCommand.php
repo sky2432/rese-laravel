@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\Reservation;
 use App\Notifications\RemindNotification;
 use Carbon\Carbon;
-use Database\Seeders\ReservationSeeder;
 use Illuminate\Console\Command;
 
 class RemindMailCommand extends Command
