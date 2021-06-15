@@ -22,11 +22,21 @@ class UpdateNameEmailRequest extends FormRequest
      *
      * @return array
      */
-    public static function rules($request, $id, $table_name)
+    public static function rules($request, $id, $table_name, $item)
     {
         $rules = [
-            'name' => ['required', 'min:2', 'max:10'],
-            'email' => ['required', 'email', 'max:255', Rule::unique($table_name)->ignore($id), ]
+            'name' => ['required', 'min:2', 'max:10',
+                function ($attribute, $value, $fail) use ($item) {
+                    if ($value === $item->name) {
+                     return $fail('現在と違う名前を入力してください');
+                    }
+                }],
+            'email' => ['required', 'email', 'max:255', Rule::unique($table_name)->ignore($id),
+                function ($attribute, $value, $fail) use ($item) {
+                    if ($value === $item->email) {
+                     return $fail('現在と違うメールアドレスを入力してください');
+                    }
+                }]
         ];
 
         return $request->validate($rules);

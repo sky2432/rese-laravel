@@ -50,9 +50,9 @@ class UserController extends Controller
     //名前・メールアドレスの更新
     public function update(Request $request, $user_id)
     {
-        UpdateNameEmailRequest::rules($request, $user_id, 'users');
-
         $item = User::find($user_id);
+        UpdateNameEmailRequest::rules($request, $user_id, 'users', $item);
+
         $item->update($request->all());
 
         return response()->json([

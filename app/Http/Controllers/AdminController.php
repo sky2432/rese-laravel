@@ -44,9 +44,9 @@ class AdminController extends Controller
     //名前・メールアドレスの更新
     public function update(Request $request, $admin_id)
     {
-        UpdateNameEmailRequest::rules($request, $admin_id, 'admins');
-
         $item = Admin::find($admin_id);
+        UpdateNameEmailRequest::rules($request, $admin_id, 'admins', $item);
+
         $item->update($request->all());
 
         return response()->json([

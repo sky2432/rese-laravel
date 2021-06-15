@@ -32,7 +32,13 @@ class UpdatePasswordRequest extends FormRequest
                     }
                 },
             ],
-            'new_password' => 'required|min:4|max:255|regex:/^[0-9a-zA-Z]*$/',
+            'new_password' => ['required', 'min:4', 'max:255', 'regex:/^[0-9a-zA-Z]*$/',
+                function ($attribute, $value, $fail) use ($item) {
+                    if ((Hash::check($value, $item->password))) {
+                        return $fail('現在と違うパスワードを入力してください');
+                    }
+                },
+            ],
         ];
 
         $messages = [

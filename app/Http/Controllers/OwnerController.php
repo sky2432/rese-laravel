@@ -53,9 +53,9 @@ class OwnerController extends Controller
     //名前・メールアドレスの更新
     public function update(Request $request, $owner_id)
     {
-        UpdateNameEmailRequest::rules($request, $owner_id, 'owners');
-
         $item = Owner::find($owner_id);
+        UpdateNameEmailRequest::rules($request, $owner_id, 'owners', $item);
+
         $item->update($request->all());
 
         return response()->json([
