@@ -21,10 +21,10 @@ class ShopRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public static function rules()
     {
         return [
-            'name' => 'required|max:10',
+            'name' => 'required|min:2|max:10',
             'genre_id' => 'required|numeric',
             'overview' => 'required|max:255',
             'postal_code' => 'required|size:7',

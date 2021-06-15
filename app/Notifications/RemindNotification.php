@@ -49,7 +49,7 @@ class RemindNotification extends Notification
                     ->line($notifiable->name . "様")
                     ->line("店名：" . $this->shop->name)
                     ->line("来店日時：" . $this->item->visited_on)
-                    ->line("来店人数：" . $this->item->number_of_visiters)
+                    ->line("来店人数：" . $this->item->number_of_visiters. "名")
                     ->action('Reseへログイン', url('http://localhost:8080/login'))
                     ->salutation('Rese運営より');
     }
