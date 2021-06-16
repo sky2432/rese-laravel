@@ -36,7 +36,6 @@ class LoginRequest extends FormRequest
                 ]
             ];
 
-
         $messages = [
             'password.regex' => 'パスワードは半角英数字で入力してください'
         ];

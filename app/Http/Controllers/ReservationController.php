@@ -54,8 +54,7 @@ class ReservationController extends Controller
     public function destroy($reservation_id)
     {
         $item = Reservation::find($reservation_id);
-        $item->status = 'cancelled';
-        $item->save();
+        $item->update(['status' => 'cancelled']);
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }
