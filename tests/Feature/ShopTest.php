@@ -29,7 +29,7 @@ class ShopTest extends TestCase
         ]);
 
         $before_owner = Owner::find($owner->id);
-        $this->assertSame(1, $before_owner->shop_present);
+        $this->assertSame(1, $before_owner->has_shop);
 
         $shop_key_data = ['shop_id' => $shop['id']];
 
@@ -50,6 +50,6 @@ class ShopTest extends TestCase
         $this->assertDatabaseMissing('evaluations', $shop_key_data);
 
         $after_owner = Owner::find($owner->id);
-        $this->assertSame(0, $after_owner->shop_present);
+        $this->assertSame(0, $after_owner->has_shop);
     }
 }

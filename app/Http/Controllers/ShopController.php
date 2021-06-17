@@ -47,7 +47,7 @@ class ShopController extends Controller
         $item->save();
 
         $owner = Owner::find($resData->owner_id);
-        $owner->shop_present = true;
+        $owner->has_shop = true;
         $owner->save();
 
         return response()->json([
@@ -116,7 +116,7 @@ class ShopController extends Controller
         DeleteService::deleteShopAllData($item);
 
         $owner = Owner::find($item->owner_id);
-        $owner->shop_present = false;
+        $owner->has_shop = false;
         $owner->save();
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
