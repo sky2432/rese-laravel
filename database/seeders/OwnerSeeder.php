@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Owner;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
 class OwnerSeeder extends Seeder
@@ -24,7 +22,7 @@ class OwnerSeeder extends Seeder
 
         Owner::factory()->create([
             'email' => 'owner2@test.com',
+            'shop_present' => false,
         ]);
-
     }
 }

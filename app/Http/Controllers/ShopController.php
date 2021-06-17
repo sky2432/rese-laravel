@@ -6,6 +6,7 @@ use App\Models\Shop;
 use App\Services\EvaluationService;
 use App\Services\ImageService;
 use App\Http\Requests\ShopRequest;
+use App\Models\Owner;
 use App\Services\DeleteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -45,8 +46,12 @@ class ShopController extends Controller
         $item->image_url = $url;
         $item->save();
 
+        $owner = Owner::find($resData->owner_id);
+        $owner->shop_present = true;
+        $owner->save();
+
         return response()->json([
-            'data' => $item
+            'data' => $owner
         ], config('const.STATUS_CODE.OK'));
     }
 
@@ -109,6 +114,10 @@ class ShopController extends Controller
     {
         $item = Shop::find($shop_id);
         DeleteService::deleteShopAllData($item);
+
+        $owner = Owner::find($item->owner_id);
+        $owner->shop_present = false;
+        $owner->save();
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }

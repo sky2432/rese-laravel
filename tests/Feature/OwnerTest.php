@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Owner;
-use Database\Seeders\OwnerSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;

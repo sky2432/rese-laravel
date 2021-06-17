@@ -39,5 +39,6 @@ class ShopTest extends TestCase
         $this->assertDeleted('shops', $shop);
         $this->assertDatabaseMissing('favorites', $shop_key_data);
         $this->assertDatabaseMissing('reservations', $shop_key_data);
-        $this->assertDatabaseMissing('evaluations', $shop_key_data);    }
+        $this->assertDatabaseMissing('evaluations', $shop_key_data);
+    }
 }

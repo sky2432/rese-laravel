@@ -14,7 +14,7 @@ class AddApiTokenToOwnersTable extends Migration
     public function up()
     {
         Schema::table('owners', function (Blueprint $table) {
-            $table->string('api_token', 80)->after('password')
+            $table->string('api_token', 80)->after('shop_present')
                 ->unique()
                 ->nullable()
                 ->default(null);

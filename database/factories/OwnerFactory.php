@@ -26,6 +26,7 @@ class OwnerFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('1234'),
+            'shop_present' => true,
         ];
     }
 }
