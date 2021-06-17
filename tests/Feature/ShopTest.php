@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Shop;
 use App\Models\Evaluation;
 use App\Models\Favorite;
+use App\Models\Owner;
 use App\Models\Reservation;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,10 +20,17 @@ class ShopTest extends TestCase
 
     public function test_destroy()
     {
-        $shop = Shop::factory()->create()->toArray();
+        $owner = Owner::factory()->create();
+        $shop = Shop::factory()->create([
+            'owner_id' => $owner->id
+        ])->toArray();
         $this->assertDatabaseHas('shops', [
             'id' => $shop['id']
         ]);
+
+        $before_owner = Owner::find($owner->id);
+        $this->assertSame(1, $before_owner->shop_present);
+
         $shop_key_data = ['shop_id' => $shop['id']];
 
         Favorite::factory()->count(5)->create($shop_key_data);
@@ -40,5 +48,8 @@ class ShopTest extends TestCase
         $this->assertDatabaseMissing('favorites', $shop_key_data);
         $this->assertDatabaseMissing('reservations', $shop_key_data);
         $this->assertDatabaseMissing('evaluations', $shop_key_data);
+
+        $after_owner = Owner::find($owner->id);
+        $this->assertSame(0, $after_owner->shop_present);
     }
 }
