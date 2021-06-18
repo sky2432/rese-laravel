@@ -36,7 +36,7 @@ class ShopController extends Controller
         $item->overview = $resData->overview;
         $item->postal_code = $resData->postal_code;
         $item->main_address = $resData->main_address;
-        if ($resData->option_address !== "none") {
+        if ($resData->option_address !== "") {
             $item->option_address = $resData->option_address;
         } else {
             $item->option_address = null;
@@ -47,7 +47,7 @@ class ShopController extends Controller
         $item->save();
 
         $owner = Owner::find($resData->owner_id);
-        $owner->has_shop = true;
+        $owner->is_shop = true;
         $owner->save();
 
         return response()->json([
@@ -116,7 +116,7 @@ class ShopController extends Controller
         DeleteService::deleteShopAllData($item);
 
         $owner = Owner::find($item->owner_id);
-        $owner->has_shop = false;
+        $owner->is_shop = false;
         $owner->save();
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));

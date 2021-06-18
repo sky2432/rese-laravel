@@ -11,7 +11,7 @@ class Shop extends Model
 
     protected $guarded = [
         'id',
-        'image_url'
+        'image_url',
     ];
 
     public function usersAddedToFavorites()

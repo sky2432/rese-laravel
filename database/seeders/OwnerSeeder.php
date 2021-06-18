@@ -22,7 +22,7 @@ class OwnerSeeder extends Seeder
 
         Owner::factory()->create([
             'email' => 'owner2@test.com',
-            'has_shop' => false,
+            'is_shop' => false,
         ]);
     }
 }

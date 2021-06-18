@@ -18,7 +18,7 @@ class CreateOwnersTable extends Migration
             $table->string('name', 255);
             $table->string('email', 255)->unique();
             $table->string('password', 255);
-            $table->boolean('has_shop')->default(false);
+            $table->boolean('is_shop')->default(false);
             $table->timestamps();
         });
     }

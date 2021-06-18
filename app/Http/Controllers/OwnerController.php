@@ -34,7 +34,7 @@ class OwnerController extends Controller
     {
         $item = new Owner();
         $item->password = Hash::make($request->password);
-        $item->has_shop = false;
+        $item->is_shop = false;
         $item->fill($request->all())->save();
 
         return response()->json([
