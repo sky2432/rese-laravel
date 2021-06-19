@@ -75,8 +75,6 @@ class UserController extends Controller
 
     public function destroy($user_id)
     {
-        DeleteService::deletePivotTable('user_id', $user_id);
-
         User::destroy($user_id);
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));

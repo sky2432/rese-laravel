@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\DatabaseSeeder;
 use Tests\TestCase;
 
 class OwnerTest extends TestCase
@@ -18,10 +19,10 @@ class OwnerTest extends TestCase
 
     public function test_update_password()
     {
-        $owner = Owner::factory()->create();
-        $this->assertDatabaseHas('owners', [
-            'id' => $owner->id
-        ]);
+        $this->seed(DatabaseSeeder::class);
+
+        $ownerId = Owner::pluck('id')->random();
+        $owner = Owner::find($ownerId);
 
         $current_password = 1234;
         $new_password = 12345;

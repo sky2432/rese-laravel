@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\Evaluation;
-use App\Models\Favorite;
-use App\Models\Reservation;
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
@@ -19,49 +16,36 @@ class UserTest extends TestCase
     use WithoutMiddleware;
 
     protected $api_url = '/api/users/';
-    protected $data_count = 2;
-    protected $test_email1 = 'test1@test.com';
-    protected $test_email2 = 'test2@test.com';
-    protected $test_email3 = 'test3@test.com';
-    protected $test_name = 'テストユーザー';
 
     protected function setUp(): Void
     {
         parent::setUp();
 
-        User::factory()->count($this->data_count)->state(new Sequence(
-            ['email' => $this->test_email1],
-            ['email' => $this->test_email2],
-        ))->create([
-            'name' => 'ユーザー'
-        ]);
+        $this->seed(DatabaseSeeder::class);
 
-        $this->assertDatabaseHas('users', [
-            'email' => $this->test_email1,
-            'email' => $this->test_email2,
-        ]);
+        $this->assertDatabaseCount('users', 10);
     }
 
     public function test_index()
     {
         $response = $this->get($this->api_url);
 
-        $response->assertOk()->assertJsonCount($this->data_count, 'data')
+        $response->assertOk()->assertJsonCount(10, 'data')
         ->assertJsonFragment([
-            'email' => $this->test_email1,
-            'email' => $this->test_email2
+            'email' => 'user1@test.com',
+            'email' => 'user2@test.com',
         ]);
     }
 
     public function test_store()
     {
         $this->assertDatabaseMissing('users', [
-            'email' => $this->test_email3
+            'email' => 'user3@test.com'
         ]);
 
         $test_user_data = [
-            'name' => $this->test_name,
-            'email' => $this->test_email3,
+            'name' => 'ユーザー',
+            'email' => 'user3@test.com',
             'password' => 1234,
         ];
 
@@ -69,33 +53,33 @@ class UserTest extends TestCase
         $response->assertOk();
 
         $this->assertDatabaseHas('users', [
-            'email' => $this->test_email3,
+            'email' => 'user3@test.com',
         ]);
     }
 
     public function test_update()
     {
-        $user = User::where('email', $this->test_email1)->first();
+        $user = User::where('email', 'user1@test.com')->first();
 
-        $this->assertNotSame($user->name, $this->test_name);
-        $this->assertNotSame($user->email, $this->test_email3);
+        $this->assertNotSame($user->name, 'ユーザー');
+        $this->assertNotSame($user->email, 'user3@test.com');
 
         $payload = [
-            'name' => $this->test_name,
-            'email' => $this->test_email3
+            'name' => 'ユーザー',
+            'email' => 'user3@test.com'
         ];
 
         $response = $this->put($this->api_url . $user->id, $payload);
         $response->assertOk();
 
         $updated_user = User::find($user->id);
-        $this->assertSame($this->test_name, $updated_user->name);
-        $this->assertSame($this->test_email3, $updated_user->email);
+        $this->assertSame('ユーザー', $updated_user->name);
+        $this->assertSame('user3@test.com', $updated_user->email);
     }
 
     public function test_update_password()
     {
-        $user = User::where('email', $this->test_email1)->first();
+        $user = User::where('email', 'user1@test.com')->first();
 
         $current_password = 1234;
         $new_password = 12345;
@@ -118,13 +102,10 @@ class UserTest extends TestCase
 
     public function test_destroy()
     {
-        $user = User::where('email', $this->test_email1)->first()->toArray();
+        $id = User::pluck('id')->random();
+        $user = User::find($id)->toArray();
 
         $user_key_data = ['user_id' => $user['id']];
-
-        Favorite::factory()->count(5)->create($user_key_data);
-        Reservation::factory()->count(5)->create($user_key_data);
-        Evaluation::factory()->count(5)->create($user_key_data);
 
         $this->assertDatabaseHas('favorites', $user_key_data);
         $this->assertDatabaseHas('reservations', $user_key_data);

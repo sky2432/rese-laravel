@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Favorite;
+use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FavoriteFactory extends Factory
@@ -22,8 +24,8 @@ class FavoriteFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1, 10),
-            'shop_id' => rand(1, 20),
+            'user_id' => User::pluck('id')->random(),
+            'shop_id' => Shop::pluck('id')->random(),
         ];
     }
 }

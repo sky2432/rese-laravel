@@ -3,10 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Reservation;
+use App\Models\Shop;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\DB;
+use Database\Seeders\DatabaseSeeder;
 use Tests\TestCase;
 
 class CommandTest extends TestCase
@@ -15,7 +17,11 @@ class CommandTest extends TestCase
 
     public function test_change_status()
     {
+        $this->seed(DatabaseSeeder::class);
+
         $reservation = Reservation::factory()->create([
+            'user_id' => User::pluck('id')->random(),
+            'shop_id' => Shop::pluck('id')->random(),
             'visited_on' => Carbon::now()->format('Y-m-d H:i:00'),
             'status' => 'reserving'
         ]);

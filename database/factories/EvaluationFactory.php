@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Evaluation;
+use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EvaluationFactory extends Factory
@@ -22,8 +24,8 @@ class EvaluationFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1, 10),
-            'shop_id' => rand(1, 20),
+            'user_id' => User::pluck('id')->random(),
+            'shop_id' => Shop::pluck('id')->random(),
             'evaluation' => rand(1, 5)
         ];
     }

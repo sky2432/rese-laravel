@@ -7,11 +7,12 @@ use App\Models\Evaluation;
 use App\Models\Favorite;
 use App\Models\Owner;
 use App\Models\Reservation;
-use Database\Seeders\DatabaseSeeder;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
+use Database\Seeders\DatabaseSeeder;
 
 class ShopTest extends TestCase
 {
@@ -20,16 +21,12 @@ class ShopTest extends TestCase
 
     public function test_destroy()
     {
-        $owner = Owner::factory()->create();
-        $shop = Shop::factory()->create([
-            'owner_id' => $owner->id
-        ])->toArray();
-        $this->assertDatabaseHas('shops', [
-            'id' => $shop['id']
-        ]);
+        $this->seed(DatabaseSeeder::class);
 
-        $before_owner = Owner::find($owner->id);
-        $this->assertSame(1, $before_owner->is_shop);
+        $owner = Owner::where('is_shop', 1)->first();
+        $shop = Shop::where('owner_id', $owner->id)->first()->toArray();
+
+        $this->assertSame(1, $owner->is_shop);
 
         $shop_key_data = ['shop_id' => $shop['id']];
 

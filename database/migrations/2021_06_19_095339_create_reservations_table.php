@@ -15,8 +15,8 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('shop_id')->references('id')->on('shops');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('shop_id')->constrained()->onDelete('cascade');
             $table->dateTime('visited_on');
             $table->unsignedSmallInteger('number_of_visiters');
             $table->enum('status', ['reserving', 'visited', 'cancelled', 'notVisited'])->default('reserving');
