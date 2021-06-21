@@ -6,8 +6,6 @@ use App\Models\Shop;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Faker\Factory as FakerFactory;
 
 class UserSeeder extends Seeder
@@ -19,6 +17,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        User::factory()->create([
+            'name' => 'ゲスト',
+            'email' => 'guest@guest.com',
+            'api_token' => "1234"
+        ]);
+
         $user1 = User::factory()->create([
             'name' => 'そら',
             'email' => 'user1@test.com',

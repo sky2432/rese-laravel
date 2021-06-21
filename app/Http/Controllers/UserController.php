@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateNameEmailRequest;
 use App\Http\Requests\UpdatePasswordRequest;
-use App\Services\DeleteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 

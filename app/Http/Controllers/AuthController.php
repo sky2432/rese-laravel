@@ -16,8 +16,12 @@ class AuthController extends Controller
         if ($type === config('const.ROLE.USER')) {
             $item = User::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'users');
-            $token = Str::random(60);
-            $item->update(['api_token' => $token]);
+            if ($request->email === 'guest@guest.com') {
+                $token = $item->api_token;
+            } else {
+                $token = Str::random(60);
+                $item->update(['api_token' => $token]);
+            }
             $role = config('const.ROLE.USER');
         }
         if ($type === config('const.ROLE.OWNER')) {
