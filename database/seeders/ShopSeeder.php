@@ -26,7 +26,6 @@ class ShopSeeder extends Seeder
             $genreIds[] = $genreId;
         }
 
-
         //オーナー1人に対して一つの店舗を所有しているようにテストデータを作成
         DB::table('shops')->insert([
             [

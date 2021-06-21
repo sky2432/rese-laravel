@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\local;
 
 use App\Models\Shop;
 use App\Models\User;
