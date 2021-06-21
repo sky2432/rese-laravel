@@ -4,6 +4,7 @@ namespace Database\Seeders\production;
 
 use App\Models\Owner;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class OwnerSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class OwnerSeeder extends Seeder
     public function run()
     {
         Owner::factory()->count(20)->create([
-            'password' => config('const.OWNER_PASSWORD')
+            'password' => Hash::make(config('const.OWNER_PASSWORD'))
         ]);
     }
 }
