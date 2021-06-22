@@ -8,7 +8,8 @@ return [
   'ROLE' => [
     'USER' => 'user',
     'OWNER' => 'owner',
-    'ADMIN' => 'admin'
+    'ADMIN' => 'admin',
+    'GUEST' => 'guest'
   ],
   'LOGIN_URL' => env('LOGIN_URL'),
   'ADMIN_EMAIL' => env('ADMIN_EMAIL'),

@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'ゲスト',
-            'email' => 'guest@guest.com',
+            'email' => 'guest@user.com',
             'api_token' => "1234"
         ]);
 

@@ -16,13 +16,14 @@ class AuthController extends Controller
         if ($type === config('const.ROLE.USER')) {
             $item = User::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'users');
-            if ($request->email === 'guest@guest.com') {
+            if ($request->email === 'guest@user.com') {
                 $token = $item->api_token;
+                $role = config('const.ROLE.GUEST');
             } else {
                 $token = Str::random(60);
                 $item->update(['api_token' => $token]);
+                $role = config('const.ROLE.USER');
             }
-            $role = config('const.ROLE.USER');
         }
         if ($type === config('const.ROLE.OWNER')) {
             $item = Owner::where('email', $request->email)->first();
