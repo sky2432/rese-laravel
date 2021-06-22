@@ -22,4 +22,5 @@ return [
     'OWNER' => 'guest@owner.com',
     'ADMIN' => 'guest@admin.com',
   ],
+  'DEFAULT_IMAGE_URL' => env('DEFAULT_IMAGE_URL'),
 ];

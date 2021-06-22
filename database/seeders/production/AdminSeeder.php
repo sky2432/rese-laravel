@@ -24,14 +24,14 @@ class AdminSeeder extends Seeder
 
         Admin::factory()->create([
             'name' => 'TopAdmin',
-            'email' => 'admin@rese.com',
+            'email' => 'admin1@rese.com',
             'role' => true,
             'password' => Hash::make(config('const.PASSWORD.ADMIN'))
         ]);
 
         Admin::factory()->create([
             'name' => 'SubAdmin',
-            'email' => 'admin2@test.com',
+            'email' => 'admin2@rese.com',
             'role' => false,
             'password' => Hash::make(config('const.PASSWORD.ADMIN'))
         ]);

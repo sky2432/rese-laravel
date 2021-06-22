@@ -36,7 +36,7 @@ class ShopSeeder extends Seeder
                 'postal_code' => '1060032',
                 'main_address' => "東京都港区六本木6-10",
                 'option_address' => "六本木ヒルズ森タワー",
-                'image_url' => 'https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg',
+                'image_url' => config('const.DEFAULT_IMAGE_URL'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
