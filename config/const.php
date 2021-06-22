@@ -12,7 +12,7 @@ return [
     'GUEST' => 'guest'
   ],
   'LOGIN_URL' => env('LOGIN_URL'),
-  'ADMIN_EMAIL' => env('ADMIN_EMAIL'),
   'ADMIN_PASSWORD' => env('ADMIN_PASSWORD'),
   'OWNER_PASSWORD' => env('OWNER_PASSWORD'),
+  'USER_PASSWORD' => env('USER_PASSWORD'),
 ];

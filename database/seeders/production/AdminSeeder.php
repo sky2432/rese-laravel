@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
     {
         Admin::factory()->create([
             'name' => 'TopAdmin',
-            'email' => config('const.ADMIN_EMAIL'),
+            'email' => 'admin@rese.com',
             'role' => true,
             'password' => Hash::make(config('const.ADMIN_PASSWORD'))
         ]);
