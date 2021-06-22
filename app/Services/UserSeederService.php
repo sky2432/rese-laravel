@@ -10,7 +10,7 @@ class UserSeederService
 {
     public static function createPivotTable($user)
     {
-        for ($i = 0; $i < rand(5, 50); $i++) {
+        for ($i = 0; $i < rand(10, 50); $i++) {
             [$visits_date, $status] = self::createVisitsDateAndStatus();
 
             $shop_id = Shop::pluck('id')->random();
