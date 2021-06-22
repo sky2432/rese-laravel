@@ -16,9 +16,9 @@ class AuthController extends Controller
         if ($type === config('const.ROLE.USER')) {
             $item = User::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'users');
-            if ($request->email === 'guest@user.com') {
+            if ($request->email === config('const.GUEST_EMAIL.USER')) {
                 $token = $item->api_token;
-                $role = config('const.ROLE.GUEST');
+                $role = 'guestUser';
             } else {
                 $token = Str::random(60);
                 $item->update(['api_token' => $token]);
@@ -28,16 +28,26 @@ class AuthController extends Controller
         if ($type === config('const.ROLE.OWNER')) {
             $item = Owner::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'owners');
-            $token = Str::random(60);
-            $item->update(['api_token' => $token]);
-            $role = config('const.ROLE.OWNER');
+            if ($request->email === config('const.GUEST_EMAIL.OWNER')) {
+                $token = $item->api_token;
+                $role = 'guestOwner';
+            } else {
+                $token = Str::random(60);
+                $item->update(['api_token' => $token]);
+                $role = config('const.ROLE.OWNER');
+            }
         }
         if ($type === config('const.ROLE.ADMIN')) {
             $item = Admin::where('email', $request->email)->first();
             LoginRequest::rules($request, $item, 'admins');
-            $token = Str::random(60);
-            $item->update(['api_token' => $token]);
-            $role = config('const.ROLE.ADMIN');
+            if ($request->email === config('const.GUEST_EMAIL.ADMIN')) {
+                $token = $item->api_token;
+                $role = 'guestAdmin';
+            } else {
+                $token = Str::random(60);
+                $item->update(['api_token' => $token]);
+                $role = config('const.ROLE.ADMIN');
+            }
         }
 
         return response()->json([

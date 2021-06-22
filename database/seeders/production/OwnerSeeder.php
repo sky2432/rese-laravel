@@ -15,8 +15,14 @@ class OwnerSeeder extends Seeder
      */
     public function run()
     {
-        Owner::factory()->count(20)->create([
-            'password' => Hash::make(config('const.OWNER_PASSWORD'))
+        Owner::factory()->create([
+            'name' => 'ゲストオーナー',
+            'email' => config('const.GUEST_EMAIL.OWNER'),
+            'api_token' => "1234"
+        ]);
+
+        Owner::factory()->count(19)->create([
+            'password' => Hash::make(config('const.PASSWORD.OWNER'))
         ]);
     }
 }

@@ -15,10 +15,18 @@ class AdminSeeder extends Seeder
     public function run()
     {
         Admin::factory()->create([
+            'name' => 'ゲスト管理者',
+            'email' => config('const.GUEST_EMAIL.ADMIN'),
+            'role' => true,
+            'api_token' => "1234"
+        ]);
+
+        Admin::factory()->create([
             'name' => 'TopAdmin',
             'email' => 'admin1@test.com',
             'role' => true,
         ]);
+
         Admin::factory()->create([
             'name' => 'SubAdmin',
             'email' => 'admin2@test.com',

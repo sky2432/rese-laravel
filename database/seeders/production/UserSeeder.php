@@ -18,12 +18,12 @@ class UserSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'ゲスト',
-            'email' => 'guest@user.com',
+            'email' => config('const.GUEST_EMAIL.USER'),
             'api_token' => "1234"
         ]);
 
         User::factory(9)->create([
-            'password' => Hash::make(config('const.USER_PASSWORD'))
+            'password' => Hash::make(config('const.PASSWORD.USER'))
         ])->each(function (User $user) {
             UserSeederService::createPivotTable($user);
         });

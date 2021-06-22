@@ -15,10 +15,16 @@ class OwnerSeeder extends Seeder
     public function run()
     {
         Owner::factory()->create([
+            'name' => 'ゲストオーナー',
+            'email' => config('const.GUEST_EMAIL.OWNER'),
+            'api_token' => "1234"
+        ]);
+
+        Owner::factory()->create([
             'email' => 'owner1@test.com',
         ]);
 
-        Owner::factory()->count(19)->create();
+        Owner::factory()->count(18)->create();
 
         Owner::factory()->create([
             'email' => 'owner2@test.com',

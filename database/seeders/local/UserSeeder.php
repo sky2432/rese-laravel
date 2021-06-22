@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'ゲスト',
-            'email' => 'guest@user.com',
+            'email' => config('const.GUEST_EMAIL.USER'),
             'api_token' => "1234"
         ]);
 
