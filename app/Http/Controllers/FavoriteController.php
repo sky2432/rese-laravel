@@ -22,12 +22,17 @@ class FavoriteController extends Controller
 
     public function store(Request $request)
     {
-        $item = new Favorite();
-        $item->fill($request->all())->save();
+        $favorite = Favorite::where('user_id', $request->user_id)->where('shop_id', $request->shop_id)->first();
+        if ($favorite) {
+            return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
+        } else {
+            $item = new Favorite();
+            $item->fill($request->all())->save();
 
-        return response()->json([
-            'data' => $item
-        ], config('const.STATUS_CODE.OK'));
+            return response()->json([
+                'data' => $item
+            ], config('const.STATUS_CODE.OK'));
+        }
     }
 
     public function destroy($favorite_id)
