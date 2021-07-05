@@ -37,7 +37,10 @@ class FavoriteController extends Controller
 
     public function destroy($favorite_id)
     {
-        Favorite::destroy($favorite_id);
+        $item = Favorite::find($favorite_id);
+        if ($item) {
+            Favorite::destroy($favorite_id);
+        }
 
         return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
     }
