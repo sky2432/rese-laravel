@@ -22,7 +22,7 @@ class FavoriteController extends Controller
 
     public function store(Request $request)
     {
-        $favorite = Favorite::where('user_id', $request->user_id)->where('shop_id', $request->shop_id)->first();
+        $favorite = Favorite::unique($request)->first();
         if ($favorite) {
             return response()->json([], config('const.STATUS_CODE.NO_CONTENT'));
         } else {

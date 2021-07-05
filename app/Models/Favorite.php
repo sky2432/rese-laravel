@@ -17,4 +17,9 @@ class Favorite extends Model
     {
         return $this->belongsTo(Shop::class);
     }
+
+    public function scopeUnique($query, $request)
+    {
+        return $query->where('user_id', $request->user_id)->where('shop_id', $request->shop_id);
+    }
 }
